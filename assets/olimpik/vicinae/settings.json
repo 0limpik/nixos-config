@@ -1,0 +1,69 @@
+// This configuration is merged with the default vicinae configuration file, which you can obtain by running the `vicinae config default` command.
+// Every item defined in this file takes precedence over the values defined in the default config or any other imported file.
+//
+// You can make manual edits to this file, however you should keep in mind that this file may be written to by vicinae when a configuration change is made through the GUI.
+// When that happens, any custom comments or formatting will be lost.
+//
+// If you want to maintain a configuration file with your own comments and formatting, you should create a separate file and add it to the 'imports' array.
+//
+// Learn more about configuration at https://docs.vicinae.com/config
+
+{
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "close_on_focus_loss": true,
+   "pop_to_root_on_close": true,
+   "font": {
+      "rendering": "native",
+      "normal": {
+         "size": 12
+      }
+   },
+   "theme": {
+      "light": {
+         "name": "catppuccin-mocha"
+      },
+      "dark": {
+         "name": "catppuccin-mocha"
+      }
+   },
+   "telemetry": {
+      "system_info": false
+   },
+   "providers": {
+      "applications": {
+         "preferences": {
+            "launchPrefix": "vicinae-launch-prefix",
+            "defaultAction": "focus",
+            "paths": [
+               "/home/olimpik/.local/share/applications",
+               "/nix/store/6w7b6fnkp81m4kcc6xsacqdqaw073lgz-vicinae-0.23.1/share/applications",
+               "/nix/store/gwlpxklgg0s7mz38fyxv8afm11v68adn-libqalculate-5.10.0/share/applications",
+               "/nix/store/9fy3i8kpxyi4dd4klqlznr54ba1jqhfv-syntax-highlighting-6.26.0/share/applications",
+               "/nix/store/152ngz5rpz2qps81ax2zlg9fsx6ra8qh-cups-2.4.19/share/applications",
+               "/nix/store/4spfjgy8lggmpbxwdx99qm7bqj7c8g2m-cups-2.4.19-lib/share/applications",
+               "/nix/store/mksx1i8qmgxlvxib2myg4d1faz3x7kmx-fontconfig-2.17.1-lib/share/applications",
+               "/nix/store/vf5xyym3j82vx9fgb109q5gi7m983x1m-util-linux-2.42-lib/share/applications",
+               "/nix/store/rd05syhv5v5999907a2n1r37sgi19vpd-systemd-260.2/share/applications",
+               "/nix/store/7dl2py4dnp4ffj92r1lq0i54ik1v8kzn-glib-2.88.1/share/applications",
+               "/nix/store/mnfvcwhr7nzgljrc4wqcbslkiz7hyb26-gettext-1.0/share/applications",
+               "/nix/store/nrsr9inxq0v02ihrm2cfc548yp0i234g-gsettings-desktop-schemas-50.1/share/gsettings-schemas/gsettings-desktop-schemas-50.1/applications",
+               "/nix/store/7c73fgj9w0k8qrpq3j1h8h976bk7gqsp-gtk+3-3.24.52/share/gsettings-schemas/gtk+3-3.24.52/applications",
+               "/nix/store/fjkdpz9m1fg7l2y9fczqlrv7fybg9hvb-desktops/share/applications",
+               "/home/olimpik/.nix-profile/share/applications",
+               "/home/olimpik/.local/state/nix/profile/share/applications",
+               "/etc/profiles/per-user/olimpik/share/applications",
+               "/nix/var/nix/profiles/default/share/applications",
+               "/run/current-system/sw/share/applications"
+            ]
+         }
+      },
+      "clipboard": {
+         "preferences": {
+            "monitoring": true,
+            "encryption": false,
+            "eraseOnStartup": true,
+            "ignorePasswords": true
+         }
+      }
+   }
+}
