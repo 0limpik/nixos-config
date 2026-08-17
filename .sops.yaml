@@ -1,0 +1,15 @@
+keys:
+  - &root age1gw7kqq3xss4r7xwpk4acwr7g3d7xgn9za5dxp9aajuuf6w0dc57snsnlzl
+  - &users:
+    - &olimpik age1m43f9k9vg57d2p3dr3rcuduk4vkllrw2840yahzkvz76y8vjrdvqlgp8gu
+  - &hosts:
+    - &pc-main age1s7axjafy3fpcwfd39dlr9mmh7rdjxn5h2mhqapkdf8ps68c4e5fswa0jps
+    - &pc-mini age1j49angqkmpgz3rmy7qvuqx2nyrmk02w0xsqgeukg0qsfrhqtwveqyfa7q2
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+    - age:
+      - *root
+      - *olimpik
+      - *pc-main
+      - *pc-mini
