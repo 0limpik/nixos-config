@@ -1,0 +1,22 @@
+{
+  ...
+}:
+{
+  imports = [
+    ./any/audio.nix
+    ./any/development.nix
+    ./any/explorer.nix
+    ./any/gaming.nix
+    ./any/host.nix
+    ./any/image.nix
+    ./any/monitoring.nix
+    ./any/music.nix
+    ./any/office.nix
+    ./any/social.nix
+    ./any/theme.nix
+    ./any/video.nix
+    ./any/web.nix
+    ./any/windows.nix
+    ./any/wm.nix
+  ];
+}
