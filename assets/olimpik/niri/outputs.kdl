@@ -1,0 +1,42 @@
+// MS-7B85
+output "LG Electronics LG ULTRAWIDE 0x00060B28" {
+    mode "2560x1080"
+    position x=0 y=0
+    focus-at-startup
+    variable-refresh-rate
+    hot-corners {
+        off
+    }
+    layout {
+        default-column-width { 
+            proportion 0.5
+        }
+    }
+}
+
+output "Samsung Electric Company SMS22A450 HLPBB00340" {
+    mode "1680x1050"
+    position x=-1680 y=180
+    hot-corners {
+        off
+    }
+    layout {
+        default-column-width { 
+            proportion 1.0
+        }
+    }
+}
+
+// G1619-04
+output "Japan Display Inc. GPD1001H 0x00000001" {
+    mode "2560x1600"
+    position x=0 y=0
+    hot-corners {
+        off
+    }
+    layout {
+        default-column-width { 
+            proportion 1.0
+        }
+    }
+}

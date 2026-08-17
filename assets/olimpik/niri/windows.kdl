@@ -1,0 +1,151 @@
+include optional=true "auto-windows.kdl"
+
+window-rule {
+    match {} 
+    draw-border-with-background false 
+}
+
+window-rule {
+    match app-id=r#"^code$"#
+    open-maximized-to-edges true
+}
+
+window-rule {
+    match title=r#"^Shutter Encoder$"# app-id=r#"^shutterencoder-ui-main-Shutter$"#
+    default-column-width { fixed 340; }
+    default-window-height { fixed 739; }
+}
+
+window-rule {
+    match title=r#"^(win0|Shutter Encoder|Settings)$"# app-id=r#"^shutterencoder-ui-main-Shutter$"#
+    open-floating true
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+window-rule {
+    match title=r#"^Open Files$"# app-id=r#"^Shutter-encoder$"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^org.qt-project.qtcreator$"# title=r#"^Qt Creator$"#
+    open-maximized-to-edges true
+}
+
+window-rule {
+    match app-id=r#"^org.qt-project.qtcreator$"# title=r#"^New Evaluated Expression — Qt Creator$"#
+    open-floating true
+}
+
+window-rule {
+    match title=r#"^Vulkan$"#
+    open-floating true
+    opacity 0.999
+    //default-column-width { fixed 2560; }
+    //default-window-height { fixed 1080; }
+    
+    border {
+        on
+    }
+}
+
+window-rule {
+    match title=r#"^Deleting — Dolphin$"#
+    open-floating true
+}
+
+
+window-rule {
+    match title=r#"^Nix Explorer$"#
+    open-floating true
+    border {
+        on
+    }
+    open-on-output "HDMI-A-1"
+}
+
+window-rule {
+    match title=r#"^Nix Explorer - Log$"#
+    open-floating true
+    border {
+        on
+    }
+    open-on-output "HDMI-A-1"
+}
+
+
+
+window-rule {
+    match title=r#"^MainWindow$"#
+    open-floating true
+    border {
+        on
+    }
+    open-on-output "HDMI-A-1"
+}
+
+window-rule {
+    match title=r#"Hello World"#
+    open-floating true
+    border {
+        on
+    }
+}
+
+window-rule {
+    match title=r#"^\^.*"#
+    open-floating true
+
+    opacity 0.999
+
+    border {
+        //on
+    }
+
+    default-floating-position x=32 y=32 relative-to="bottom-right"
+    open-focused false
+    tiled-state false
+}
+
+window-rule {
+    match title=r#"Go to slot.+"#
+    open-floating true
+}
+
+window-rule { 
+    match app-id="org.kde.kdialog"
+    open-floating true
+}
+
+window-rule { 
+    match title="KDialog" app-id="org.kde."
+    open-floating true
+}
+
+window-rule {
+    match title="Copying — Dolphin" app-id="org.kde.dolphin"
+    open-floating true
+}
+
+window-rule {
+    match title="New Compound Clip" app-id="resolve"
+    open-floating true
+}
+
+window-rule {
+    match title="Render in Place" app-id="resolve"
+    open-floating true
+}
+
+window-rule {
+    match title="SVG Input" app-id="org.inkscape.Inkscape"
+    open-floating true
+}
+
+window-rule {
+    match title="AI Voice Convert"
+    open-floating true
+    default-column-width { fixed 250; }
+    default-window-height { fixed 250; }
+}

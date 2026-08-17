@@ -1,0 +1,70 @@
+include optional=true "auto-themes.kdl"
+
+layout {
+    gaps 0
+    center-focused-column "never"
+    focus-ring {
+        on
+        width 1
+    }
+    border {
+        off
+    }
+    tab-indicator {
+        width 1
+        gap -1
+        length total-proportion=0.5
+        position "top"
+        place-within-column
+        gaps-between-tabs 16
+    }
+    shadow {
+        on
+        softness 32
+        spread 2
+        offset x=0 y=0
+        draw-behind-window false
+    }
+    struts {
+        left 0
+        right 0
+        top 0
+        bottom 0
+    }
+}
+
+
+overview {
+    zoom 0.2
+    workspace-shadow {
+        on
+        softness 0
+        spread 10
+        offset x=0 y=0
+    }
+}
+
+recent-windows {
+    on 
+    debounce-ms 0
+    open-delay-ms 0
+    highlight {
+        padding 0
+        corner-radius 0
+    }
+    previews {
+        max-height 320
+        max-scale 0.2
+    }
+}
+
+cursor {
+    xcursor-theme "gradient-green"
+    xcursor-size 24
+}
+
+prefer-no-csd
+
+animations {
+    off
+}
