@@ -1,0 +1,79 @@
+From 7e944a526b51b7376af467e505ade95fa6373649 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 3 Mar 2026 01:59:36 +0300
+Subject: [PATCH] fixes ffmpeg8
+
+---
+ plugin.cpp         |  3 ---
+ prores_encoder.cpp | 10 +++-------
+ prores_encoder.h   |  2 +-
+ 4 files changed, 6 insertions(+), 18 deletions(-)
+
+diff --git a/plugin.cpp b/plugin.cpp
+index f4f0876..72e6491 100755
+--- a/plugin.cpp
++++ b/plugin.cpp
+@@ -47,9 +47,6 @@ StatusCode g_HandleCreateObj(unsigned char* p_pUUID, ObjectRef* p_ppObj)
+ 
+ StatusCode g_HandlePluginStart()
+ {
+-    av_register_all();
+-    avcodec_register_all();
+-
+     return errNone;
+ }
+ 
+diff --git a/prores_encoder.cpp b/prores_encoder.cpp
+index e558774..e8cbe6c 100755
+--- a/prores_encoder.cpp
++++ b/proreencoder_plugin/prores_encoder.cpp
+@@ -324,7 +324,7 @@ StatusCode ProResEncoder::DoInit(HostPropertyCollectionRef* p_pProps)
+     UISettingsController settings;
+     settings.Load(p_pProps);
+ 
+-    uint8_t hSampling = settings.GetProfile() >= FF_PROFILE_PRORES_4444 /*4444 and 4444 hq */ ? 1 : 2;
++    uint8_t hSampling = settings.GetProfile() >= AV_PROFILE_PRORES_4444 /*4444 and 4444 hq */ ? 1 : 2;
+     uint8_t vSampling = 1;
+     StatusCode res = p_pProps->SetProperty(pIOPropHSubsampling, propTypeUInt8, &vSampling, 1);
+     if (res != errNone)
+@@ -347,14 +347,10 @@ StatusCode ProResEncoder::DoInit(HostPropertyCollectionRef* p_pProps)
+ void ProResEncoder::OpenAV()
+ { 
+     g_Log(logLevelInfo, "OpenAV");
+-    av_register_all();
+-
+-    // Initialize FFmpeg codecs and formats
+-    avcodec_register_all();
+ 
+     int width = m_CommonProps.GetWidth();
+     int height = m_CommonProps.GetHeight();
+-    int hSampling = m_profile >= FF_PROFILE_PRORES_4444 /* 4444 4444 hq */ ? 1 : 2;
++    int hSampling = m_profile >= AV_PROFILE_PRORES_4444 /* 4444 4444 hq */ ? 1 : 2;
+     // Find the ProRes codec
+     m_codec = avcodec_find_encoder(AV_CODEC_ID_PRORES);
+     if (!m_codec) {
+@@ -508,7 +504,7 @@ StatusCode ProResEncoder::DoProcess(HostBufferRef* p_pBuff)
+ 
+           // Initialize the frame parameters
+         float framerate = (float)m_codecContext->framerate.num / (float)m_codecContext->framerate.den;
+-        int hSampling = m_profile >= FF_PROFILE_PRORES_4444 /* 4444 4444 hq */ ? 1 : 2;
++        int hSampling = m_profile >= AV_PROFILE_PRORES_4444 /* 4444 4444 hq */ ? 1 : 2;
+         frame->format = hSampling == 1 ? AV_PIX_FMT_YUV444P10 : AV_PIX_FMT_YUV422P10;
+         frame->width =  m_codecContext->width;
+         frame->height =  m_codecContext->height;            
+diff --git a/prores_encoder.h b/prores_encoder.h
+index f65f625..3f03929 100755
+--- a/prores_encoder.h
++++ b/prores_encoder.h
+@@ -46,7 +46,7 @@ private:
+ 
+ private:
+ 
+-    AVCodec* m_codec;
++    const AVCodec* m_codec;
+     AVCodecContext* m_codecContext;
+     AVFrame* m_frame;
+     AVPacket* m_packet;
+-- 
+2.51.2
+

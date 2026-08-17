@@ -1,0 +1,26 @@
+From 3c852a8e29e141d5bf462754e070beb78fb2ff47 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 3 Mar 2026 00:49:38 +0300
+Subject: [PATCH] fix file name type
+
+---
+ x265_encoder.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/x265_encoder.cpp b/x265_encoder.cpp
+index db369a1..bb71d22 100644
+--- a/x265_encoder.cpp
++++ b/x265_encoder.cpp
+@@ -621,7 +621,8 @@ void X265Encoder::SetupContext(bool p_IsFinalPass)
+ 			m_pParam->rc.bStatWrite = 1;
+ 		}
+ 
+-		m_pParam->rc.statFileName = &m_sStatFileName[0];
++		strncpy(m_pParam->rc.statFileName, m_sStatFileName.c_str(), sizeof(m_pParam->rc.statFileName)-1);
++		m_pParam->rc.statFileName[sizeof(m_pParam->rc.statFileName)-1] = '\0';
+ 	}
+ 
+ 	if (pProfile != NULL) {
+-- 
+2.51.2
+

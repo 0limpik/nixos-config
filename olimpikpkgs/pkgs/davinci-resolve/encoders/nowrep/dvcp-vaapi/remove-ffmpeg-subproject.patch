@@ -1,0 +1,41 @@
+From 48ab3d69124ce626ee4038baf12f2ef2b6a2e768 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Sun, 1 Mar 2026 08:38:18 +0300
+Subject: [PATCH] remove ffmpeg subproject
+
+---
+ meson.build | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 09a333f..49b5710 100644
+--- a/meson.build
++++ b/meson.build
+@@ -22,22 +22,8 @@ add_project_arguments(
+ libdrm = dependency('libdrm')
+ libva = dependency('libva')
+ 
+-ffmpeg = subproject(
+-  'ffmpeg',
+-  default_options: [
+-    'gpl=enabled',
+-    'default_library=static',
+-    'programs=disabled',
+-    'libdrm=enabled',
+-    'vaapi=enabled',
+-    'vaapi_drm=enabled',
+-    'h264_vaapi_encoder=enabled',
+-    'hevc_vaapi_encoder=enabled',
+-    'av1_vaapi_encoder=enabled',
+-  ]
+-)
+-libavcodec = ffmpeg.get_variable('libavcodec_dep')
+-libavutil = ffmpeg.get_variable('libavutil_dep')
++libavcodec = dependency('libavcodec')
++libavutil = dependency('libavutil')
+ 
+ srcs = files(
+   'wrapper/host_api.cpp',
+-- 
+2.51.2
+

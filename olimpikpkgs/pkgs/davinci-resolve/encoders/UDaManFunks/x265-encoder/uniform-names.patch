@@ -1,0 +1,25 @@
+From 6632193b8aa31ba2f43023fb42b8b383749cf635 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 3 Mar 2026 00:01:31 +0300
+Subject: [PATCH] uniform names
+
+---
+ x265_encoder.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/x265_encoder.cpp b/x265_encoder.cpp
+index 15283bc..6b652d1 100644
+--- a/x265_encoder.cpp
++++ b/x265_encoder.cpp
+@@ -370,7 +370,7 @@ StatusCode X265Encoder::s_RegisterCodecs(HostListRef* p_pList)
+ 	const char* pCodecName = "Auto";
+ 	codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, static_cast<int>(strlen(pCodecName)));
+ 
+-	const char* pCodecGroup = "X265 Main";
++	const char* pCodecGroup = "X265 Main [x265]";
+ 	codecInfo.SetProperty(pIOPropGroup, propTypeString, pCodecGroup, static_cast<int>(strlen(pCodecGroup)));
+ 
+ 	uint32_t vFourCC = 'hvc1';
+-- 
+2.51.2
+

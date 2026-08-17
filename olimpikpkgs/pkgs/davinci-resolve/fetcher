@@ -1,0 +1,52 @@
+action_id="$(
+  od \
+    --address-radix n \
+    --read-bytes 4 \
+    --format u4 </dev/urandom |
+    tr \
+      --delete ' '
+)"
+echo "action id: $action_id"
+# shellcheck disable=SC2154
+echo '@nix { "id": '"$action_id"', "action": "start", "type": 101, "level": 3, "text": "\u001b[1m'"$name"'\u001b[0m" }' >&"$NIX_LOG_FD"
+
+echo '@nix { "id": '"$action_id"', "action": "result", "type": 108, "fields": [ "get \"'"$PLATFORM $PRODUCT $VERSION"'\" download id" ] }' >&"$NIX_LOG_FD"
+download_latest_url="$(get_download_latest_url "$PLATFORM" "$PRODUCT" "$VERSION")" || exit $?
+download_id="$(jq --raw-output '.downloadId' <<<"$download_latest_url")"
+echo "download id: $download_id"
+download_title="$(jq --raw-output '.downloadTitle' <<<"$download_latest_url")" || exit $?
+echo "download title: $download_title"
+
+echo '@nix { "id": '"$action_id"', "action": "result", "type": 108, "fields": [ "get \"'"$download_title"'\" archive url" ] }' >&"$NIX_LOG_FD"
+archive_url="$(get_archive_url "$download_id" "$ARCHIVE_URL_USERAGENT" "$ARCHIVE_URL_REFFERER" "$ARCHIVE_URL_BODY")" || exit $?
+echo "archive url: $archive_url"
+
+echo '@nix { "id": '"$action_id"', "action": "result", "type": 108, "fields": [ "get \"'"$download_title"'\" archive size" ] }' >&"$NIX_LOG_FD"
+archive_size="$(get_archive_size "$archive_url")" || exit $?
+echo "archive size: $archive_size"
+echo '@nix { "id": '"$action_id"', "action": "result", "type": 106, "fields": [ 101, '"$archive_size"' ] }' >&"$NIX_LOG_FD"
+
+echo '@nix { "id": '"$action_id"', "action": "result", "type": 108, "fields": [ "download \"'"$download_title"'\" archive" ] }' >&"$NIX_LOG_FD"
+echo "download \"$download_title\" archive"
+# shellcheck disable=SC2154
+curl \
+  --silent \
+  --compressed \
+  --show-error \
+  --retry 3 \
+  --retry-delay 3 \
+  --header 'Upgrade-Insecure-Requests: 1' \
+  --header "$ARCHIVE_URL_USERAGENT" \
+  --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' \
+  --header 'Accept-Language: en-US,en;q=0.9' \
+  "$archive_url" |
+  pv \
+    --interval 1.0 \
+    --numeric \
+    --size "$archive_size" \
+    --format '@nix { "id": '"$action_id"', "action": "result", "type": 105, "fields": [ %{bytes}, 0, 0, 0 ] }' \
+    >"$out" 2>&"$NIX_LOG_FD" || exit $?
+
+echo "downloaded \"$download_title\" archive to \"$out\""
+echo '@nix { "id": '"$action_id"', "action": "result", "type": 108, "fields": [ "downloaded \"'"$download_title"'\" archive to \"'"$out"'\"" ] }' >&"$NIX_LOG_FD"
+echo '@nix { "id": '"$action_id"', "action": "stop" }' >&"$NIX_LOG_FD"

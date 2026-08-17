@@ -1,0 +1,26 @@
+From e048f3782c09fcdc1743bb14281505b00ecaa900 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 3 Mar 2026 03:54:25 +0300
+Subject: [PATCH] change plugin uuid
+
+---
+ plugin.cpp | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/plugin.cpp b/plugin.cpp
+index 636c9d2..f582742 100755
+--- a/plugin.cpp
++++ b/plugin.cpp
+@@ -6,8 +6,7 @@
+ 
+ #include "audio_encoder.h"
+ 
+-// NOTE: When creating a plugin for release, please generate a new Plugin UUID in order to prevent conflicts with other third-party plugins.
+-static const uint8_t pMyUUID[] = { 0x5d, 0x43, 0xce, 0x60, 0x45, 0x11, 0x4f, 0x58, 0x87, 0xde, 0xf3, 0x02, 0x80, 0x1e, 0x7b, 0xbc };
++static const uint8_t pMyUUID[] = { 0xa3, 0x9f, 0x4b, 0x2d, 0x7c, 0x8e, 0x41, 0x90, 0xb2, 0x65, 0xd4, 0x11, 0xee, 0x3f, 0x7a, 0xc9 };
+ 
+ using namespace IOPlugin;
+ 
+-- 
+2.51.2
+

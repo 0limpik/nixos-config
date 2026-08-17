@@ -1,0 +1,81 @@
+merge_theme_directories() {
+  local source_dir="${1:?source_dir at first argument is required}"
+  local target_dir="${2:?target_dir at second argument is required}"
+  local directory_name="${3:?directory_name at third argument is required}"
+
+  source_theme_dirs="$(
+    find "$source_dir" -type d |
+      sed "s|^.*/${source_dir##*/}/||" |
+      awk -F/ 'NF==2' |
+      paste --serial --delimiters ","
+  )"
+  target_theme_dirs="$(
+    grep "^$directory_name=" "$target_dir/index.theme" |
+      cut --delimiter "=" --fields 2
+  )"
+  merged_theme_dirs="$(
+    printf '%s\n' "${target_theme_dirs//,/$'\n'}" "${source_theme_dirs//,/$'\n'}" |
+      sort --unique --ignore-leading-blanks |
+      paste --serial --delimiters ","
+  )"
+  sed --in-place "s|^$directory_name=.*|$directory_name=$merged_theme_dirs|" "$target_dir/index.theme"
+}
+
+link_theme_to_target() {
+  local source_dir="${1:?source_dir at first argument is required}"
+  local target_dir="${2:?target_dir at second argument is required}"
+
+  mkdir --parents "$target_dir"
+  (
+    cd "$source_dir" || return
+
+    find . -type d -print0 |
+      xargs --null --replace \
+        mkdir --parents "$target_dir/{}"
+
+    find ./* \( -type f -o -xtype f \) -print0 |
+      xargs --null --replace --max-procs "$NIX_BUILD_CORES" \
+        ln --symbolic --force --no-dereference "$source_dir/{}" "$target_dir/{}"
+  )
+
+  merge_theme_directories "$source_dir" "$target_dir" "Directories"
+  merge_theme_directories "$source_dir" "$target_dir" "ScaledDirectories"
+
+  keys=$(
+    first=1
+    for dir in "$source_dir/scalable"/*; do
+      context="${dir##*/}"
+      key="[scalable/$context]"
+      if grep --quiet --fixed-strings "$key" "$target_dir/index.theme"; then
+        continue
+      fi
+      case "$context" in
+      apps) spec_context="Applications" ;;
+      mimetypes) spec_context="MimeTypes" ;;
+      *) spec_context="${context^}" ;;
+      esac
+      if [[ $first == 0 ]]; then
+        printf '\n'
+      fi
+      first=0
+      printf '%s\n' \
+        "$key" \
+        "Size=64" \
+        "Type=Scalable" \
+        "MinSize=16" \
+        "MaxSize=256" \
+        "Context=$spec_context"
+    done
+  )
+
+  if [[ -n $keys ]]; then
+    printf '\n%s\n' "$keys" >>"$target_dir/index.theme"
+  fi
+}
+
+source_dir="${1:?source_dir at first argument is required}"
+out="${2:?target_dir at second argument is required}"
+
+link_theme_to_target "$source_dir" "$out/share/icons/Papirus"
+link_theme_to_target "$source_dir" "$out/share/icons/Papirus-Dark"
+link_theme_to_target "$source_dir" "$out/share/icons/Papirus-Light"

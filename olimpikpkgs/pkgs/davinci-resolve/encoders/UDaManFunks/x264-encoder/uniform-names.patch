@@ -1,0 +1,67 @@
+From a59888e4a9d4ce8a512f6629fa3cdbf7889e249a Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Mon, 2 Mar 2026 23:59:12 +0300
+Subject: [PATCH] uniform names
+
+---
+ x264_encoder.cpp      | 2 +-
+ x264_encoder_h422.cpp | 2 +-
+ x264_encoder_high.cpp | 2 +-
+ x264_encoder_main.cpp | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/x264_encoder.cpp b/x264_encoder.cpp
+index 74492db..0e6b3ec 100644
+--- a/x264_encoder.cpp
++++ b/x264_encoder.cpp
+@@ -30,7 +30,7 @@ StatusCode X264Encoder::s_RegisterCodecs(HostListRef* p_pList)
+ 	const char* pCodecName = "Auto";
+ 	codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, static_cast<int>(strlen(pCodecName)));
+ 
+-	const char* pCodecGroup = "X264 Baseline";
++	const char* pCodecGroup = "X264 Baseline [x264]";
+ 	codecInfo.SetProperty(pIOPropGroup, propTypeString, pCodecGroup, static_cast<int>(strlen(pCodecGroup)));
+ 
+ 	uint32_t val = 'avc1';
+diff --git a/x264_encoder_h422.cpp b/x264_encoder_h422.cpp
+index 251d65f..0941589 100644
+--- a/x264_encoder_h422.cpp
++++ b/x264_encoder_h422.cpp
+@@ -29,7 +29,7 @@ StatusCode X264EncoderH422::s_RegisterCodecs(HostListRef* p_pList)
+ 	const char* pCodecName = "Auto";
+ 	codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, static_cast<int>(strlen(pCodecName)));
+ 
+-	const char* pCodecGroup = "X264 High 4:2:2";
++	const char* pCodecGroup = "X264 High 4:2:2 [x264]";
+ 	codecInfo.SetProperty(pIOPropGroup, propTypeString, pCodecGroup, static_cast<int>(strlen(pCodecGroup)));
+ 
+ 	uint32_t val = 'avc1';
+diff --git a/x264_encoder_high.cpp b/x264_encoder_high.cpp
+index ce3ec44..c3982f9 100644
+--- a/x264_encoder_high.cpp
++++ b/x264_encoder_high.cpp
+@@ -28,7 +28,7 @@ StatusCode X264EncoderHigh::s_RegisterCodecs(HostListRef* p_pList)
+ 	const char* pCodecName = "Auto";
+ 	codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, static_cast<int>(strlen(pCodecName)));
+ 
+-	const char* pCodecGroup = "X264 High";
++	const char* pCodecGroup = "X264 High [x264]";
+ 	codecInfo.SetProperty(pIOPropGroup, propTypeString, pCodecGroup, static_cast<int>(strlen(pCodecGroup)));
+ 
+ 	uint32_t val = 'avc1';
+diff --git a/x264_encoder_main.cpp b/x264_encoder_main.cpp
+index 393f647..cc8c85e 100644
+--- a/x264_encoder_main.cpp
++++ b/x264_encoder_main.cpp
+@@ -28,7 +28,7 @@ StatusCode X264EncoderMain::s_RegisterCodecs(HostListRef* p_pList)
+ 	const char* pCodecName = "Auto";
+ 	codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, static_cast<int>(strlen(pCodecName)));
+ 
+-	const char* pCodecGroup = "X264 Main";
++	const char* pCodecGroup = "X264 Main [x264]";
+ 	codecInfo.SetProperty(pIOPropGroup, propTypeString, pCodecGroup, static_cast<int>(strlen(pCodecGroup)));
+ 
+ 	uint32_t val = 'avc1';
+-- 
+2.51.2
+

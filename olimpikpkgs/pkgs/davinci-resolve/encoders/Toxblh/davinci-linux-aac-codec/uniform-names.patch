@@ -1,0 +1,25 @@
+From a4e8816939a4fe64d33f7e5bbcadda6043f5536f Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Mon, 2 Mar 2026 23:16:32 +0300
+Subject: [PATCH] uniform names
+
+---
+ audio_encoder.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/audio_encoder.cpp b/audio_encoder.cpp
+index 3625d47..e1c3231 100755
+--- a/audio_encoder.cpp
++++ b/audio_encoder.cpp
+@@ -79,7 +79,7 @@ StatusCode AudioEncoder::s_RegisterCodecs(HostListRef* p_pList)
+ 
+     codecInfo.SetProperty(pIOPropUUID, propTypeUInt8, AudioEncoder::s_UUID, 16);
+ 
+-    const char* pCodecName = "AAC (FFMpeg Plugin)";
++    const char* pCodecName = "AAC [aac]";
+     codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, strlen(pCodecName));
+ 
+     uint32_t val = 'aac ';
+-- 
+2.51.2
+

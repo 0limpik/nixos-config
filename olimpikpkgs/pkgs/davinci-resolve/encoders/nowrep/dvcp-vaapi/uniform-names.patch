@@ -1,0 +1,33 @@
+From 831542f785476a75f729460437a0f33229400760 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 3 Mar 2026 01:00:29 +0300
+Subject: [PATCH] uniform names
+
+---
+ vaapi_encoder.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/vaapi_encoder.cpp b/vaapi_encoder.cpp
+index e79f9ec..16beded 100644
+--- a/vaapi_encoder.cpp
++++ b/vaapi_encoder.cpp
+@@ -539,11 +539,11 @@ StatusCode VAAPIEncoder::RegisterCodecs(HostListRef *p_pList)
+         p_pList->Append(&info);
+     };
+ 
+-    addCodec(uuid_h264, FOURCC_AVC, "VAAPI H.264", "YUV 420 8-bit", 8);
+-    addCodec(uuid_hevc_8, FOURCC_HEVC, "VAAPI H.265", "YUV 420 8-bit", 8);
+-    addCodec(uuid_hevc_10, FOURCC_HEVC, "VAAPI H.265", "YUV 420 10-bit", 10);
+-    addCodec(uuid_av1_8, FOURCC_AV1, "VAAPI AV1", "YUV 420 8-bit", 8);
+-    addCodec(uuid_av1_10, FOURCC_AV1, "VAAPI AV1", "YUV 420 10-bit", 10);
++    addCodec(uuid_h264, FOURCC_AVC, "H.264 [vaapi]", "YUV 420 8-bit", 8);
++    addCodec(uuid_hevc_8, FOURCC_HEVC, "H.265 [vaapi]", "YUV 420 8-bit", 8);
++    addCodec(uuid_hevc_10, FOURCC_HEVC, "H.265 [vaapi]", "YUV 420 10-bit", 10);
++    addCodec(uuid_av1_8, FOURCC_AV1, "AV1 [vaapi]", "YUV 420 8-bit", 8);
++    addCodec(uuid_av1_10, FOURCC_AV1, "AV1 [vaapi]", "YUV 420 10-bit", 10);
+ 
+     return errNone;
+ }
+-- 
+2.51.2
+

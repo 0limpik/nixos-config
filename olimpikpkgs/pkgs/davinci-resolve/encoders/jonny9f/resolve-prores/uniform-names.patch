@@ -1,0 +1,39 @@
+From 3406eed6499082bf6de75b1db758c45077492f01 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 3 Mar 2026 03:08:25 +0300
+Subject: [PATCH] uniform names
+
+---
+ audio_encoder.cpp | 2 +-
+ mov_container.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/audio_encoder.cpp b/audio_encoder.cpp
+index 038a9dd..ce97f4f 100755
+--- a/audio_encoder.cpp
++++ b/audio_encoder.cpp
+@@ -64,7 +64,7 @@ StatusCode AudioEncoder::s_RegisterCodecs(HostListRef* p_pList)
+ 
+     codecInfo.SetProperty(pIOPropUUID, propTypeUInt8, AudioEncoder::s_UUID, 16);
+ 
+-    const char* pCodecName = "Audio Plugin";
++    const char* pCodecName = "Audio Plugin [prores-j]";
+     codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, strlen(pCodecName));
+ 
+     uint32_t val = ' aac';
+diff --git a/mov_container.cpp b/mov_container.cpp
+index b31b603..2b8a7b0 100755
+--- a/mov_container.cpp
++++ b/mov_container.cpp
+@@ -49,7 +49,7 @@ StatusCode MovContainer::s_Register(HostListRef* p_pList)
+ 
+     containerInfo.SetProperty(pIOPropUUID, propTypeUInt8, MovContainer::s_UUID, 16);
+ 
+-    const char* pContainerName = "QuickTime (ffmpeg)";
++    const char* pContainerName = "QuickTime [prores-j]";
+     containerInfo.SetProperty(pIOPropName, propTypeString, pContainerName, strlen(pContainerName));
+ 
+     const uint32_t mediaType = (mediaAudio | mediaVideo);
+-- 
+2.51.2
+

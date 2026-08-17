@@ -1,0 +1,96 @@
+From 54f4818fad8baf5261e4a4cbed5a135d25af95ae Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Wed, 16 Jul 2026 08:02:11 +0300
+Subject: [PATCH] add fallback for reading icon name from xattrs
+
+---
+ src/core/kfileitem.cpp | 48 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 1 deletion(-)
+
+diff --git a/src/core/kfileitem.cpp b/src/core/kfileitem.cpp
+index b9d5440f9..919ac7afb 100644
+--- a/src/core/kfileitem.cpp
++++ b/src/core/kfileitem.cpp
+@@ -5,6 +5,8 @@
+ 
+     SPDX-License-Identifier: LGPL-2.0-or-later
+ */
++#include <execinfo.h>
++#include <sys/xattr.h>
+ 
+ #include "kfileitem.h"
+ 
+@@ -28,7 +30,11 @@
+ #include <QMimeDatabase>
+ #include <QRegularExpression>
+ #include <QTimeZone>
++#include <QBuffer>
++#include <QByteArray>
++#include <QTextStream>
+ 
++#include <KConfig>
+ #include <KConfigGroup>
+ #include <KDesktopFile>
+ #include <KLocalizedString>
+@@ -1215,10 +1221,49 @@ QString KFileItem::iconName() const
+         }
+ 
+         if (isDir()) {
++            QTextStream out(stdout);
++            out << "dir: " << url.toString() << "\n";
++            void *array[64];
++            int size = backtrace(array, 64);
++            char **symbols = backtrace_symbols(array, size);
++            for (int i = 0; i < size; ++i) {
++                out << symbols[i] << "\n";
++            }
++            free(symbols);
++
+             if (isDirectoryMounted(url)) {
+-                d->m_iconName = iconFromDirectoryFile(localFile);
++
++                QByteArray xattrData;
++                const char* localFileChar = localFile.toLocal8Bit().constData();
++                const long xattrSize = getxattr(localFileChar, "user.kde.fm.viewproperties#1", nullptr, 0);
++                if (xattrSize > 0) {
++                    xattrData.resize(xattrSize);
++                    getxattr(localFileChar, "user.kde.fm.viewproperties#1", xattrData.data(), xattrSize);
++                }
++                QString iconName;
++                if (!xattrData.isEmpty()) {
++                    const auto buffer = std::make_shared<QBuffer>(&xattrData);
++                    if (buffer->open(QIODevice::ReadOnly)) {
++                        const KConfig config(buffer, KConfig::SimpleConfig);
++                        if (config.hasGroup(QStringLiteral("Desktop Entry"))) {
++                            const KConfigGroup group = config.group(QStringLiteral("Desktop Entry"));
++                            iconName = group.readEntry("Icon", "");
++                            if (!iconName.isEmpty()) {
++                                out << "icon:xartt " << d->m_iconName  << "\n";
++                            }
++                        }
++                    }
++                }
++                if (iconName.isEmpty()) {
++                    iconName = iconFromDirectoryFile(localFile);
++                    if (!iconName.isEmpty()) {
++                        out << "icon:dir " << d->m_iconName  << "\n";
++                    }
++                }
++                d->m_iconName = std::move(iconName);
+                 if (!d->m_iconName.isEmpty()) {
+                     d->m_useIconNameCache = d->m_bMimeTypeKnown;
++                    out << "icon:cache " << d->m_iconName  << "\n";
+                     return d->m_iconName;
+                 }
+             }
+@@ -1226,6 +1271,7 @@ QString KFileItem::iconName() const
+             d->m_iconName = KIOPrivate::iconForStandardPath(localFile);
+             if (!d->m_iconName.isEmpty()) {
+                 d->m_useIconNameCache = d->m_bMimeTypeKnown;
++                out << "icon:mime " << d->m_iconName  << "\n";
+                 return d->m_iconName;
+             }
+         }
+-- 
+2.54.0
+

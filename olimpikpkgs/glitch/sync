@@ -1,0 +1,82 @@
+sefl="$(dirname "$(readlink --canonicalize "$0")")"
+
+sync_config() {
+  local location="${1:-./config/index.md}"
+  (
+    # shellcheck disable=SC1091
+    source "$sefl/generate-config.sh"
+
+    printf '' >"$location"
+    printf '%s\n' \
+      '' \
+      '### config.my' \
+      '' >>"$location"
+    generate "$location" || return
+  ) || return
+}
+
+sync_modules() {
+  local location="${1:-./modules/index.md}"
+  (
+    # shellcheck disable=SC1091
+    source "$sefl/generate-modules.sh"
+
+    printf '' >"$location"
+    printf '%s\n' \
+      "### [options.my](module-list.nix)" \
+      "" >>"$location"
+    generate "$location" || return
+  ) || return
+}
+
+sync_pkgs() {
+  local location="${1:-./olimpikpkgs/index.md}"
+  local flake="${2:-./olimpikpkgs}"
+  (
+    # shellcheck disable=SC1091
+    source "$sefl/generate-pkgs.sh"
+
+    local index
+    index="$(<"$location")" || return
+
+    printf '' >"$location"
+    printf '%s\n' \
+      "### [packages](pkgs/all-packages.nix)" \
+      "" >>"$location"
+    generate_packages "$index" "$location" "$flake" || return
+    printf '%s\n' \
+      "" \
+      "### [vscode-extensions](pkgs/vscode-extensions/extensions.nix)" \
+      "" >>"$location"
+    generate_vscode_extensions "$index" "$location" "$flake" || return
+    printf '%s\n' \
+      "" \
+      "### [davinci-resolve-encoders](pkgs/davinci-resolve/encoders/encoders.nix)" \
+      "" >>"$location"
+    generate_davinci_resolve_encoders "$index" "$location" "$flake" || return
+  ) || return
+}
+
+target="${1:-all}"
+shift
+
+case "$target" in
+"config")
+  sync_config "$@" || exit
+  ;;
+"modules")
+  sync_modules "$@" || exit
+  ;;
+"pkgs")
+  sync_pkgs "$@" || exit
+  ;;
+"all")
+  sync_config || exit
+  sync_modules || exit
+  sync_pkgs || exit
+  ;;
+*)
+  echo "unknown target!" >&2
+  exit 1
+  ;;
+esac

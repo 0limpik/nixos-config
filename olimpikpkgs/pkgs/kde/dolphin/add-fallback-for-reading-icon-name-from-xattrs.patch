@@ -1,0 +1,370 @@
+From 2dd95e8dda6a971ff7e5d90ca14da326d99971a2 Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 17 Jun 2026 7:19:32 +0300
+Subject: [PATCH] add fallback for reading icon name from xattrs
+
+---
+ src/kitemviews/kfileitemlistview.cpp          | 21 ++++++--
+ src/kitemviews/kfileitemmodel.cpp             | 20 ++++++--
+ src/kitemviews/kfileitemmodelrolesupdater.cpp | 18 +++++--
+ .../information/informationpanelcontent.cpp   | 15 +++++-
+ ...dolphin_directoryviewpropertysettings.kcfg | 10 +++-
+ src/views/viewproperties.cpp                  | 48 +++++++++++++++++--
+ src/views/viewproperties.h                    |  3 ++
+ 7 files changed, 116 insertions(+), 19 deletions(-)
+
+diff --git a/src/kitemviews/kfileitemlistview.cpp b/src/kitemviews/kfileitemlistview.cpp
+index 3a02d537d..f1c7eb931 100644
+--- a/src/kitemviews/kfileitemlistview.cpp
++++ b/src/kitemviews/kfileitemlistview.cpp
+@@ -12,8 +12,11 @@
+ #include "private/kitemviewsutils.h"
+ #include "private/kpixmapmodifier.h"
+ 
++#include "../views/viewproperties.h"
++
+ #include <KIconLoader>
+ 
++#include <QTextStream>
+ #include <QGraphicsScene>
+ #include <QGraphicsView>
+ #include <QIcon>
+@@ -210,11 +213,21 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget *item)
+         KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
+ 
+         const KFileItem fileItem = fileItemModel->fileItem(item->index());
+-        QString iconName = fileItem.iconName();
+-        if (!QIcon::hasThemeIcon(iconName)) {
+-            QMimeDatabase mimeDb;
+-            iconName = mimeDb.mimeTypeForName(fileItem.mimetype()).genericIconName();
++        QString iconName;
++        const QUrl url = fileItem.url();
++        const auto props = std::make_unique<ViewProperties>(url);
++        QTextStream out(stdout);
++        //out << "url:2 " << url.toString() << Qt::endl;
++        const QByteArray icon = props->icon();
++        iconName = QString::fromLatin1(icon);
++        if (iconName.isEmpty()) {
++            iconName = fileItem.iconName();
++            if (!QIcon::hasThemeIcon(iconName)) {
++                QMimeDatabase mimeDb;
++                iconName = mimeDb.mimeTypeForName(fileItem.mimetype()).genericIconName();
++            }
+         }
++        //out << "icon:2 " << iconName << Qt::endl;
+         data.insert("iconName", iconName);
+         item->setData(data, {"iconName"});
+     }
+diff --git a/src/kitemviews/kfileitemmodel.cpp b/src/kitemviews/kfileitemmodel.cpp
+index 12b8e2a98..2a0d4efa6 100644
+--- a/src/kitemviews/kfileitemmodel.cpp
++++ b/src/kitemviews/kfileitemmodel.cpp
+@@ -13,6 +13,7 @@
+ #include "dolphindebug.h"
+ #include "private/kfileitemmodelsortalgorithm.h"
+ #include "views/draganddrophelper.h"
++#include "../views/viewproperties.h"
+ 
+ #include <KDirLister>
+ #include <KFileMetaData/UserMetaData>
+@@ -24,6 +25,7 @@
+ #ifndef QT_NO_ACCESSIBILITY
+ #include <QAccessible>
+ #endif
++#include <QTextStream>
+ #include <QElapsedTimer>
+ #include <QIcon>
+ #include <QMimeData>
+@@ -2019,12 +2021,22 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item,
+     }
+ 
+     if (item.isMimeTypeKnown()) {
+-        QString iconName = item.iconName();
+-        if (!QIcon::hasThemeIcon(iconName)) {
+-            QMimeType mimeType = QMimeDatabase().mimeTypeForName(item.mimetype());
+-            iconName = mimeType.genericIconName();
++        QString iconName;
++        const QUrl url = item.url();
++        const auto props = std::make_unique<ViewProperties>(url);
++        QTextStream out(stdout);
++        //out << "url:1 " << url.toString() << Qt::endl;
++        const QByteArray icon = props->icon();
++        iconName = QString::fromLatin1(icon);
++        if (iconName.isEmpty()) {
++            iconName = item.iconName();
++            if (!QIcon::hasThemeIcon(iconName)) {
++                QMimeType mimeType = QMimeDatabase().mimeTypeForName(item.mimetype());
++                iconName = mimeType.genericIconName();
++            }
+         }
+ 
++        //out << "icon:1 " << iconName << Qt::endl;
+         data.insert(sharedValue("iconName"), iconName);
+ 
+         if (m_requestRole[TypeRole]) {
+diff --git a/src/kitemviews/kfileitemmodelrolesupdater.cpp b/src/kitemviews/kfileitemmodelrolesupdater.cpp
+index 31459d8d1..09a493bbd 100644
+--- a/src/kitemviews/kfileitemmodelrolesupdater.cpp
++++ b/src/kitemviews/kfileitemmodelrolesupdater.cpp
+@@ -23,6 +23,7 @@
+ #include <KSharedConfig>
+ 
+ #include "dolphin_contentdisplaysettings.h"
++#include "../views/viewproperties.h"
+ 
+ #if HAVE_BALOO
+ #include "private/kbaloorolesprovider.h"
+@@ -30,6 +31,7 @@
+ #include <Baloo/FileMonitor>
+ #endif
+ 
++#include <QTextStream>
+ #include <QApplication>
+ #include <QElapsedTimer>
+ #include <QFileInfo>
+@@ -1220,7 +1222,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint,
+     const KFileItem item = !referenceItem.isNull() && referenceItem.isMimeTypeKnown() ? referenceItem : m_model->fileItem(index);
+     const bool resolveAll = (hint == ResolveAll);
+ 
+-    bool iconChanged = false;
++    bool iconChanged = true;
+     if (resolveAll && (!item.isMimeTypeKnown() || !item.isFinalIconKnown())) {
+         item.determineMimeType();
+         iconChanged = true;
+@@ -1237,11 +1239,17 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint,
+         if (resolveAll) {
+             data = rolesData(item, index);
+         }
+-
+-        if (!item.iconName().isEmpty()) {
+-            data.insert("iconName", item.iconName());
++        QString iconName;
++        const QUrl url = item.url();
++        const auto props = std::make_unique<ViewProperties>(url);
++        const QByteArray icon = props->icon();
++        iconName = QString::fromLatin1(icon);
++        if (iconName.isEmpty()) {
++            iconName = item.iconName();
++        }
++        if (!iconName.isEmpty()) {
++            data.insert("iconName", iconName);
+         }
+-
+         if (m_clearPreviews) {
+             data.insert("iconPixmap", QPixmap());
+             data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
+diff --git a/src/panels/information/informationpanelcontent.cpp b/src/panels/information/informationpanelcontent.cpp
+index 285ce3ae9..4c0ca2b83 100644
+--- a/src/panels/information/informationpanelcontent.cpp
++++ b/src/panels/information/informationpanelcontent.cpp
+@@ -24,6 +24,7 @@
+ 
+ #include <Baloo/FileMetaDataWidget>
+ 
++#include <QTextStream>
+ #include <QDialogButtonBox>
+ #include <QGesture>
+ #include <QLabel>
+@@ -39,6 +40,7 @@
+ #include "dolphin_informationpanelsettings.h"
+ #include "mediawidget.h"
+ #include "pixmapviewer.h"
++#include "../../views/viewproperties.h"
+ 
+ const int PLAY_ARROW_SIZE = 24;
+ const int PLAY_ARROW_BORDER_SIZE = 2;
+@@ -361,7 +363,18 @@ bool InformationPanelContent::gestureEvent(QGestureEvent *event)
+ void InformationPanelContent::showIcon(const KFileItem &item)
+ {
+     m_outdatedPreviewTimer->stop();
+-    QIcon icon = QIcon::fromTheme(item.iconName());
++    QString iconName;
++    const QUrl url = item.url();
++    const auto props = std::make_unique<ViewProperties>(url);
++    QTextStream out(stdout);
++    //out << "url:4 " << url.toString() << Qt::endl;
++    const QByteArray iconProps = props->icon();
++    iconName = QString::fromLatin1(iconProps);
++    if (iconName.isEmpty()) {
++        iconName = item.iconName();
++    }
++    //out << "icon4: " << iconName << Qt::endl;
++    QIcon icon = QIcon::fromTheme(iconName);
+     QPixmap pixmap = KIconUtils::addOverlays(icon, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
+     pixmap.setDevicePixelRatio(devicePixelRatioF());
+     m_preview->setPixmap(pixmap);
+diff --git a/src/settings/dolphin_directoryviewpropertysettings.kcfg b/src/settings/dolphin_directoryviewpropertysettings.kcfg
+index bae1f409f..7bd5f6816 100644
+--- a/src/settings/dolphin_directoryviewpropertysettings.kcfg
++++ b/src/settings/dolphin_directoryviewpropertysettings.kcfg
+@@ -14,6 +14,14 @@
+         </entry>
+     </group>
+ 
++    <group name="Desktop Entry">
++         <entry name="Icon" type="String" >
++            <label context="@label">Icon</label>
++            <whatsthis context="@info:whatsthis">Icon</whatsthis>
++            <default></default>
++        </entry>
++    </group>
++
+     <group name="Dolphin">
+         <entry name="Version" type="Int" >
+             <label context="@label">Version</label>
+@@ -89,5 +97,3 @@
+         </entry>
+     </group>
+ </kcfg>
+-
+-
+diff --git a/src/views/viewproperties.cpp b/src/views/viewproperties.cpp
+index 03ab2bd58..5b545cd11 100644
+--- a/src/views/viewproperties.cpp
++++ b/src/views/viewproperties.cpp
+@@ -12,6 +12,7 @@
+ #include "dolphindebug.h"
+ 
+ #include <QBuffer>
++#include <QTextStream>
+ #include <QCryptographicHash>
+ 
+ #include <KFileItem>
+@@ -37,8 +38,32 @@ const char ViewPropertiesFileName[] = ".directory";
+ 
+ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) const
+ {
++    QTextStream out(stdout);
+     const QString settingsFile = folderPath + QDir::separator() + ViewPropertiesFileName;
++    ViewPropertySettings* props = loadPropertiesInternal(folderPath, settingsFile);
++    if (props) {
++        out << "file: " << settingsFile << Qt::endl;
++        return props;
++    }
++    QString fallbackFolderPath;
++    QString fallbackSettingsFile;
++    const QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
++    if (!folderPath.startsWith(appDataLocation)) {
++        fallbackFolderPath = destinationDir(QStringLiteral("local")) + folderPath;
++        fallbackSettingsFile = fallbackFolderPath + QDir::separator() + ViewPropertiesFileName;
++        props = loadPropertiesInternal(fallbackFolderPath, fallbackSettingsFile);
++        if (props) {
++            out << "fallback: " << fallbackSettingsFile << Qt::endl;
++            return props;
++        }
++    }
++    out << "fail:\n" << folderPath << ":" << settingsFile << "\n" << fallbackFolderPath << ":" << fallbackSettingsFile << Qt::endl;
++    return props;
++}
+ 
++ViewPropertySettings *ViewProperties::loadPropertiesInternal(const QString &folderPath, const QString &settingsFile) const
++{
++    QTextStream out(stdout);
+     std::shared_ptr<QFile> file = std::make_shared<QFile>(settingsFile);
+     if (file->exists()) {
+         if (!file->open(QIODevice::ReadOnly)) {
+@@ -50,6 +75,7 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath)
+     KFileMetaData::UserMetaData metadata(folderPath);
+     if (!metadata.isSupported()) {
+         auto fileConfig = std::make_unique<KConfig>(file, KConfig::OpenFlag::SimpleConfig);
++        out << "from unsupported" << Qt::endl;
+         return new ViewPropertySettings(std::move(fileConfig));
+     }
+ 
+@@ -59,10 +85,10 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath)
+         // load settings into new ViewPropertySettings
+         KConfig config(file, KConfig::OpenFlag::SimpleConfig);
+         // keep settings that are outside of dolphin scope
+-        if (config.hasGroup("Dolphin") || config.hasGroup("Settings")) {
++        if (config.hasGroup("Dolphin") || config.hasGroup("Settings") || config.hasGroup("Desktop Entry")) {
+             const auto groupList = config.groupList();
+             for (const auto &group : groupList) {
+-                if (group != QStringLiteral("Dolphin") && group != QStringLiteral("Settings")) {
++                if (group != QStringLiteral("Dolphin") && group != QStringLiteral("Settings") && group != QStringLiteral("Desktop Entry")) {
+                     config.deleteGroup(group);
+                 }
+             }
+@@ -74,6 +100,7 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath)
+ 
+             auto bufferConfig = std::make_unique<KConfig>(buffer, KConfig::OpenFlag::SimpleConfig);
+             bufferConfig->copyFrom(config);
++            out << "from file" << Qt::endl;
+             return new ViewPropertySettings(std::move(bufferConfig));
+         }
+     }
+@@ -92,6 +119,7 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath)
+ 
+     auto bufferConfig = std::make_unique<KConfig>(buffer, KConfig::OpenFlag::SimpleConfig);
+ 
++    out << "from metadata" << Qt::endl;
+     return new ViewPropertySettings(std::move(bufferConfig));
+ }
+ 
+@@ -304,6 +332,14 @@ void ViewProperties::setHiddenFilesShown(bool show)
+     }
+ }
+ 
++void ViewProperties::setIcon(QByteArray icon)
++{
++    if (m_node->icon() != icon) {
++        m_node->setIcon(icon);
++        update();
++    }
++}
++
+ void ViewProperties::setGroupedSorting(bool grouped)
+ {
+     if (m_node->groupedSorting() != grouped) {
+@@ -322,6 +358,11 @@ bool ViewProperties::hiddenFilesShown() const
+     return m_node->hiddenFilesShown();
+ }
+ 
++QByteArray ViewProperties::icon() const
++{
++    return m_node->icon().toLatin1();
++}
++
+ void ViewProperties::setSortRole(const QByteArray &role)
+ {
+     if (m_node->sortRole() != role) {
+@@ -489,6 +530,7 @@ void ViewProperties::setDirProperties(const ViewProperties &props)
+     setViewMode(props.viewMode());
+     setPreviewsShown(props.previewsShown());
+     setHiddenFilesShown(props.hiddenFilesShown());
++    setIcon(props.icon());
+     setGroupedSorting(props.groupedSorting());
+     setSortRole(props.sortRole());
+     setSortOrder(props.sortOrder());
+@@ -526,7 +568,7 @@ void ViewProperties::save()
+             KConfig cfg(settingsFile, KConfig::OpenFlag::SimpleConfig);
+             const auto groupList = cfg.groupList();
+             for (const auto &group : groupList) {
+-                if (group == QStringLiteral("Dolphin") || group == QStringLiteral("Settings")) {
++                if (group == QStringLiteral("Dolphin") || group == QStringLiteral("Settings") || group == QStringLiteral("Desktop Entry")) {
+                     cfg.deleteGroup(group);
+                 }
+             }
+diff --git a/src/views/viewproperties.h b/src/views/viewproperties.h
+index bee1e7330..2f0ed42ad 100644
+--- a/src/views/viewproperties.h
++++ b/src/views/viewproperties.h
+@@ -49,6 +49,8 @@ public:
+ 
+     void setHiddenFilesShown(bool show);
+     bool hiddenFilesShown() const;
++    void setIcon(QByteArray show);
++    QByteArray icon() const;
+ 
+     void setGroupedSorting(bool grouped);
+     bool groupedSorting() const;
+@@ -158,6 +160,7 @@ private:
+ 
+     /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller. */
+     ViewPropertySettings *loadProperties(const QString &folderPath) const;
++    ViewPropertySettings *loadPropertiesInternal(const QString &folderPath, const QString &settingsFile) const;
+     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
+     ViewPropertySettings *defaultProperties() const;
+ 
+-- 
+2.54.0
+

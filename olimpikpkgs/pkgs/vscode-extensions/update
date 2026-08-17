@@ -1,0 +1,238 @@
+ignore_same_version=0
+ignore_same_hash=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --publisher)
+    publisher="$2"
+    shift 2
+    ;;
+  --name)
+    name="$2"
+    shift 2
+    ;;
+  --version)
+    version="$2"
+    shift 2
+    ;;
+  --hash)
+    hash="$2"
+    shift 2
+    ;;
+  --location)
+    location="$2"
+    shift 2
+    ;;
+  --ignore-same-version)
+    ignore_same_version=1
+    shift 1
+    ;;
+  --ignore-same-hash)
+    ignore_same_hash=1
+    shift 1
+    ;;
+  *)
+    echo "unknown argument! $1" >&2
+    exit 1
+    ;;
+  esac
+done
+
+for argument in "publisher" "name"; do
+  if [[ -z $argument ]]; then
+    echo "$argument at --$argument is requred!" >&2
+    exit 1
+  fi
+done
+
+log() {
+  local message="${1?:message at first argument is required!}"
+  echo "${publisher}.${name}: $message" >&2
+}
+
+fatal() {
+  local message="${1?:message at first argument is required!}"
+
+  log "$message"
+  exit 255
+}
+
+default_location="./extensions.nix"
+if [[ -z $location || -f $default_location ]]; then
+  location="$default_location"
+fi
+if [[ -z $location ]]; then
+  fatal "location at --location is not settled and can't find at \$default_locatin!
+      $default_location"
+fi
+
+if [[ -z $version || -z $hash ]]; then
+  exec 200<>"${location}"
+  flock --timeout 5 200 || exit 1
+  trap 'flock --unlock 200' EXIT
+  value="$(
+    #shellcheck disable=SC2016
+    nix eval \
+      --raw \
+      --impure \
+      --expr '
+      let
+        file = import '"${location}"';
+        extension = file.'"${publisher}"'.'"${name}"';
+      in
+        "${builtins.toString extension.version} ${builtins.toString extension.hash}"
+    '
+  )" || exit $?
+  trap - EXIT
+  flock --unlock 200
+  read -r current_version current_hash <<<"$value"
+  if [[ -z $version ]]; then
+    version="$current_version"
+  fi
+  if [[ -z $hash ]]; then
+    hash="$current_hash"
+  fi
+fi
+for argument in "version" "hash"; do
+  if [[ -z $argument ]]; then
+    fatal "$argument at --$argument is not settled and can't find at \$location!
+      $location"
+  fi
+done
+
+filters="$(
+  jq \
+    --null-input \
+    --arg value "${publisher}.${name}" '
+    {
+      filters: [
+        {
+          criteria: [
+            {
+              filterType: "7",
+              value: $value
+            }
+          ],
+          pageNumber: "1",
+          pageSize: "10"
+        }
+      ],
+      flags: "1073"
+    }'
+)" || exit $?
+
+json=$(
+  curl \
+    --silent \
+    --request POST \
+    --header "Accept: application/json;api-version=6.1-preview.1" \
+    --header "Content-Type: application/json" \
+    --data "$filters" \
+    "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery"
+) || exit $?
+if [[ -z $json ]]; then
+  fatal "empty json!"
+fi
+
+versions="$(
+  jq --raw-output '
+    .results[0].extensions[0].versions[]
+    | select(
+        (.properties // [])
+        | map(.key == "Microsoft.VisualStudio.Code.PreRelease" and .value == "true")
+        | any
+        | not
+      )
+    | .version
+  ' <<<"$json"
+)" || exit 1
+if [[ -z $versions ]]; then
+  fatal "empty versions in response!
+    $json"
+fi
+
+latest_version="$(
+  sort --version-sort \
+    <<<"$versions" |
+    tail --lines 1
+)" || return
+if [[ -z $latest_version || $latest_version == "null" ]]; then
+  fatal "empty version in response!
+    $json"
+fi
+if [[ $version == "$latest_version" ]]; then
+  log "${version} up-to-date"
+  [[ $ignore_same_version == 0 ]] && exit
+fi
+
+archive_prefix="https://marketplace.visualstudio.com/_apis/public/gallery/publishers"
+archive_postfix="$publisher/vsextensions/$name/$latest_version/vspackage"
+latest_hash="$(
+  nix store prefetch-file \
+    --quiet \
+    --json \
+    "$archive_prefix/$archive_postfix" \
+    2>/dev/null |
+    jq --raw-output '.hash'
+)" || exit $?
+
+log "${version} -> $latest_version"
+
+location_hash() {
+  sha256sum "${location}" |
+    cut --delimiter " " --fields 1
+}
+
+location_modify() {
+  local line="${1:?position at first argument is required}"
+  local key="${2:?key at second argument is required }"
+  local old="${3:?old at third argument is required}"
+  local new="${4:?new at fourth argument is required}"
+  local ignore="${5:-0}"
+
+  local before
+  before="$(location_hash)"
+
+  sed \
+    --in-place \
+    --expression \
+    "${line}s|${key} = \"${old}\";|${key} = \"${new}\";|" \
+    "${location}" || return
+
+  local after
+  after="$(location_hash)"
+
+  if [[ $before == "$after" ]]; then
+    log "$key not changed!"
+    if [[ $ignore == 0 ]]; then
+      return 1
+    fi
+  fi
+  return 0
+}
+
+exec 200<>"${location}"
+flock --timeout 5 200 || exit 1
+trap 'flock --unlock 200' EXIT
+
+position="$(
+  #shellcheck disable=SC2016
+  nix eval \
+    --raw \
+    --impure \
+    --expr '
+      let
+        file = import '"${location}"';
+        extension = file.'"${publisher}"'.'"${name}"';
+        version = builtins.unsafeGetAttrPos "version" extension;
+        hash = builtins.unsafeGetAttrPos "hash" extension;
+      in
+        "${builtins.toString version.line} ${builtins.toString hash.line}"
+    '
+)" || exit $?
+read -r version_line hash_line <<<"$position"
+
+# shellcheck disable=SC2086
+location_modify "$version_line" "version" "$version" "$latest_version" "$ignore_same_version" || exit $?
+# shellcheck disable=SC2086
+location_modify "$hash_line" "hash" "$hash" "$latest_hash" "$ignore_same_hash" || exit $?

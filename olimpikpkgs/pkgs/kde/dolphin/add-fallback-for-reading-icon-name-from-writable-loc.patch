@@ -1,0 +1,158 @@
+From aed7dec71a12c60e7528359b589c75c7519de54d Mon Sep 17 00:00:00 2001
+From: Evgeniy Galyuta <olimpik.net@gmail.com>
+Date: Tue, 17 Jun 2026 05:03:14 +0300
+Subject: [PATCH] add fallback for reading icon name from writable location
+
+---
+ src/kitemviews/kfileitemmodelrolesupdater.cpp | 14 ++++++-
+ ...dolphin_directoryviewpropertysettings.kcfg |  2 -
+ src/views/viewproperties.cpp                  | 40 ++++++++++++++++++-
+ src/views/viewproperties.h                    |  3 ++
+ 4 files changed, 54 insertions(+), 5 deletions(-)
+
+diff --git a/src/kitemviews/kfileitemmodelrolesupdater.cpp b/src/kitemviews/kfileitemmodelrolesupdater.cpp
+index 31459d8d1..ca4f9b61c 100644
+--- a/src/kitemviews/kfileitemmodelrolesupdater.cpp
++++ b/src/kitemviews/kfileitemmodelrolesupdater.cpp
+@@ -23,6 +23,7 @@
+ #include <KSharedConfig>
+ 
+ #include "dolphin_contentdisplaysettings.h"
++#include "../views/viewproperties.h"
+ 
+ #if HAVE_BALOO
+ #include "private/kbaloorolesprovider.h"
+@@ -1238,8 +1239,17 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint,
+             data = rolesData(item, index);
+         }
+ 
+-        if (!item.iconName().isEmpty()) {
+-            data.insert("iconName", item.iconName());
++        QString iconName;
++        const QUrl url = item.url();
++        const std::unique_ptr<ViewProperties> props = std::make_unique<ViewProperties>(url);
++        const QByteArray icon = props->icon();
++        iconName = QString::fromLatin1(icon);
++        if (iconName.isEmpty()) {
++            iconName = item.iconName();
++        }
++
++        if (!iconName.isEmpty()) {
++            data.insert("iconName", iconName);
+         }
+ 
+         if (m_clearPreviews) {
+diff --git a/src/settings/dolphin_directoryviewpropertysettings.kcfg b/src/settings/dolphin_directoryviewpropertysettings.kcfg
+index bae1f409f..8d8eded86 100644
+--- a/src/settings/dolphin_directoryviewpropertysettings.kcfg
++++ b/src/settings/dolphin_directoryviewpropertysettings.kcfg
+@@ -89,5 +89,3 @@
+         </entry>
+     </group>
+ </kcfg>
+-
+-
+diff --git a/src/views/viewproperties.cpp b/src/views/viewproperties.cpp
+index 03ab2bd58..9f5e1ef18 100644
+--- a/src/views/viewproperties.cpp
++++ b/src/views/viewproperties.cpp
+@@ -16,6 +16,7 @@
+ 
+ #include <KFileItem>
+ #include <KFileMetaData/UserMetaData>
++#include <KDesktopFile>
+ 
+ namespace
+ {
+@@ -37,8 +38,16 @@ const char ViewPropertiesFileName[] = ".directory";
+ 
+ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) const
+ {
+-    const QString settingsFile = folderPath + QDir::separator() + ViewPropertiesFileName;
++    ViewPropertySettings* props = loadPropertiesInternal(folderPath);
++    if (!props && !folderPath.startsWith(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation))) {
++        props = loadPropertiesInternal(destinationDir(QStringLiteral("local")) + folderPath);
++    }
++    return props;
++}
+ 
++ViewPropertySettings *ViewProperties::loadPropertiesInternal(const QString &folderPath) const
++{
++    const QString settingsFile = folderPath + QDir::separator() + ViewPropertiesFileName;
+     std::shared_ptr<QFile> file = std::make_shared<QFile>(settingsFile);
+     if (file->exists()) {
+         if (!file->open(QIODevice::ReadOnly)) {
+@@ -304,6 +313,21 @@ void ViewProperties::setHiddenFilesShown(bool show)
+     }
+ }
+ 
++void ViewProperties::setIcon(QByteArray icon)
++{
++    const QString iconName = QString::fromLatin1(icon);
++    const QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
++    KDesktopFile desktopFile{settingsFile};
++    if (!iconName.isEmpty() && iconName != QLatin1String("folder") && iconName != QLatin1String("inode-directory")) {
++        desktopFile.desktopGroup().writeEntry(QStringLiteral("Icon"), iconName);
++    } else {
++        desktopFile.desktopGroup().deleteEntry(QStringLiteral("Icon"));
++        if (desktopFile.desktopGroup().entryMap().isEmpty() && QFile::exists(settingsFile)) {
++            QFile::remove(settingsFile);
++        }
++    }
++}
++
+ void ViewProperties::setGroupedSorting(bool grouped)
+ {
+     if (m_node->groupedSorting() != grouped) {
+@@ -322,6 +346,19 @@ bool ViewProperties::hiddenFilesShown() const
+     return m_node->hiddenFilesShown();
+ }
+ 
++QByteArray ViewProperties::icon() const
++{
++    const QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
++    if (QFile::exists(settingsFile)) {
++        return KDesktopFile{settingsFile}.readIcon().toLatin1();
++    }
++    const QString fallbackSettingsFile = destinationDir(QStringLiteral("local")) + m_filePath + QDir::separator() + ViewPropertiesFileName;
++    if (QFile::exists(fallbackSettingsFile)) {
++        return KDesktopFile{fallbackSettingsFile}.readIcon().toLatin1();
++    }
++    return QStringLiteral("").toLatin1();
++}
++
+ void ViewProperties::setSortRole(const QByteArray &role)
+ {
+     if (m_node->sortRole() != role) {
+@@ -489,6 +526,7 @@ void ViewProperties::setDirProperties(const ViewProperties &props)
+     setViewMode(props.viewMode());
+     setPreviewsShown(props.previewsShown());
+     setHiddenFilesShown(props.hiddenFilesShown());
++    setIcon(props.icon());
+     setGroupedSorting(props.groupedSorting());
+     setSortRole(props.sortRole());
+     setSortOrder(props.sortOrder());
+diff --git a/src/views/viewproperties.h b/src/views/viewproperties.h
+index bee1e7330..2c6d4152f 100644
+--- a/src/views/viewproperties.h
++++ b/src/views/viewproperties.h
+@@ -49,6 +49,8 @@ public:
+ 
+     void setHiddenFilesShown(bool show);
+     bool hiddenFilesShown() const;
++    void setIcon(QByteArray show);
++    QByteArray icon() const;
+ 
+     void setGroupedSorting(bool grouped);
+     bool groupedSorting() const;
+@@ -158,6 +160,7 @@ private:
+ 
+     /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller. */
+     ViewPropertySettings *loadProperties(const QString &folderPath) const;
++    ViewPropertySettings *loadPropertiesInternal(const QString &folderPath) const;
+     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
+     ViewPropertySettings *defaultProperties() const;
+ 
+-- 
+2.54.0
+

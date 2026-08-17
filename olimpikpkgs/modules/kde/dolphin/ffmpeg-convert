@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+output_ext="$1"
+shift
+
+while [[ $# -gt 0 ]]; do
+  input="$1"
+  shift
+  
+  input_dir="${input%/*}"
+  input_ext="${input##*.}"
+  input_name="${input##*/}"
+  input_name="${input_name%."$input_ext"}"
+  output="${input_dir}/${input_name}${output_ext}"
+  command=(
+    ffmpeg
+    -hide_banner
+    -i "$input"
+    -y "$output"
+  )
+  if ! result="$("${command[@]}" 2>&1)"; then
+    kdialog \
+      --detailedsorry \
+      "${command[*]}" \
+      "$result"
+  fi
+done
