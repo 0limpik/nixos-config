@@ -30,8 +30,6 @@
       pkgs-u.winbox4
     ];
     sessionVariables = {
-      ELECTRON_OZONE_PLATFORM_HINT = "auto";
-      NIXOS_OZONE_WL = "1";
       XDG_DATA_DIRS = [
         "${pkgs-s.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs-s.gsettings-desktop-schemas.name}"
         "${pkgs-s.gtk3}/share/gsettings-schemas/${pkgs-s.gtk3.name}"

@@ -42,9 +42,5 @@
     systemPackages = [
       pkgs-s.home-manager
     ];
-    sessionVariables = {
-      ELECTRON_OZONE_PLATFORM_HINT = "auto";
-      NIXOS_OZONE_WL = "1";
-    };
   };
 }
