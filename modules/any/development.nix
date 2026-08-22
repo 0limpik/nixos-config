@@ -100,6 +100,8 @@ in
                     "terminal.integrated.scrollback" = 100000;
                     "window.density.editorTabHeight" = "compact";
                     "window.dialogStyle" = "custom";
+                    "workbench.activityBar.compact" = true;
+                    "workbench.secondarySideBar.showLabels" = false;
                     "workbench.editor.enablePreviewFromCodeNavigation" = true;
                     "workbench.editor.enablePreviewFromQuickOpen" = true;
                     "workbench.editor.highlightModifiedTabs" = true;
