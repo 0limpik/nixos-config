@@ -231,7 +231,7 @@ let
           latest_version="$(get_latest_version "$PLATFORM" "$PRODUCT" "$VERSION")"
           update-source-version \
             "davinci-resolve-studio" "$latest_version" \
-            "--file=./pkgs/davinci-resolve-studio/unwrapped.nix" \
+            "--file=./pkgs/davinci-resolve/unwrapped.nix" \
             "--source-key=davinci.src"
         '';
       });
