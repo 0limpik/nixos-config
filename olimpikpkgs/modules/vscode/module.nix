@@ -95,6 +95,10 @@ in
           userSettings = {
             "cmakeFormatter.gersemiPath" = "${lib.getExe pkgs-s.gersemi}";
             "cmakeFormatter.lineWidth" = "120";
+            "C_Cpp.clang_format_path" = "${pkgs-s.clang-tools}/bin/clang-format";
+            "C_Cpp.clang_format_sortIncludes" = true;
+            "C_Cpp.formatting" = "clangFormat";
+            "C_Cpp.intelliSenseEngine" = "disabled";
           };
           extensions = with pkgs-o.vscode-extensions; [
             alexandar-djordjevic.gersemi-cmake-formatter
