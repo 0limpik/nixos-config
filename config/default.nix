@@ -35,17 +35,31 @@
       warn-dirty = false;
     };
     channel.enable = false;
+    registry = with inputs; {
+      s.to = {
+        type = "path";
+        path = nixpkgs-s.outPath;
+      };
+      u.to = {
+        type = "path";
+        path = nixpkgs-u.outPath;
+      };
+      m.to = {
+        type = "path";
+        path = nixpkgs-m.outPath;
+      };
+      o.to = {
+        type = "path";
+        path = olimpikpkgs.outPath;
+      };
+    };
     nixPath = with inputs; [
       "nixpkgs=${nixpkgs-u.outPath}"
 
-      "s=${nixpkgs-s.outPath}"
-      "u=${nixpkgs-u.outPath}"
-      "m=${nixpkgs-m.outPath}"
       "nixpkgs-s=${nixpkgs-s.outPath}"
       "nixpkgs-u=${nixpkgs-u.outPath}"
       "nixpkgs-m=${nixpkgs-m.outPath}"
 
-      "o=${olimpikpkgs.outPath}"
       "olimpikpkgs=${olimpikpkgs.outPath}"
     ];
   };
