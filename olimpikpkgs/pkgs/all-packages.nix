@@ -32,7 +32,7 @@ builtins.removeAttrs
       material-design-icons = callPackage ./material-design-icons/package.nix { };
       mission-center = callPackage-s ./mission-center/package.nix { };
       nixos-editor = callPackage ./nixos-editor/package.nix { };
-      nix-update = callPackage-s ./nix-update/package.nix { };
+      nix-update = callPackage-m ./nix-update/package.nix { };
       shutter-encoder = callPackage ./shutter-encoder/package.nix { };
       spotify-browser = callPackage ./spotify-browser/package.nix { };
       steam = callPackage-u ./steam/package.nix {
