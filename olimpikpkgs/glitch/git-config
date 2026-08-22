@@ -1,0 +1,6 @@
+[user]
+    name = Vanellope von Schweetz
+    email = olimpik.net+the.glitch@gmail.com
+    signingkey = E621FAA4FADEC0DE
+[commit]
+    gpgsign = true
