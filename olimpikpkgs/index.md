@@ -8,6 +8,8 @@
 | 2026-06-21 | 0.14.15 | [material-design-icons-4.0.0](pkgs/material-design-icons/package.nix) | [developers.google.com](https://developers.google.com/fonts/docs/material_icons) |
 | 2026-07-02 | 20.2 | [shutter-encoder](pkgs/shutter-encoder/package.nix) | [shutterencoder.com](https://www.shutterencoder.com) |
 | 2026-04-30 | 2.7.2 | [tsmuxer](pkgs/tsmuxer/package.nix) | [github.com](https://github.com/jaminmc/tsMuxer) |
+| 2026-08-24 | 1.15.2 | [vencord](/nix/store/4yd6qkbjyxndnz4pwczb5m3i19sfyc6q-source/pkgs/by-name/ve/vencord/package.nix) | [github.com](https://github.com/Vendicated/Vencord) |
+| 2026-08-24 | 1.6.7 | [vesktop](/nix/store/4yd6qkbjyxndnz4pwczb5m3i19sfyc6q-source/pkgs/by-name/ve/vesktop/package.nix) | [github.com](https://github.com/Vencord/Vesktop) |
 
 ### [vscode-extensions](pkgs/vscode-extensions/extensions.nix)
 
@@ -50,11 +52,11 @@
 | updated | version | author | pname | uniform name | homepage |
 | ------- | ------- | ------ | ----- | ------------ | -------- |
 | 2026-03-03 | 1.0.1 | Toxblh | davinci-linux-aac-codec | [aac](pkgs/davinci-resolve/encoders/Toxblh/davinci-linux-aac-codec/default.nix) | [github.com](https://github.com/Toxblh/davinci-linux-aac-codec) |
-| 2026-03-03 | 0.0.1 | hexitnz | resolve-linux-studio-aac-fdk-encoder-plugin | [aac-fdk](pkgs/davinci-resolve/encoders/hexitnz/resolve-linux-studio-aac-fdk-encoder-plugin/default.nix) | [github.com](https://github.com/hexitnz/Resolve-Linux-Studio-AAC-FDK-Encoder-plugin) |
-| 2026-03-03 | 1.2.1 | EdvinNilsson | ffmpeg-encoder-plugin | [ffmpeg](pkgs/davinci-resolve/encoders/EdvinNilsson/ffmpeg-encoder-plugin/default.nix) | [github.com](https://github.com/EdvinNilsson/ffmpeg_encoder_plugin) |
-| 2026-03-03 | 0.unstable-2024-08-22 | UDaManFunks | prores-encoder | [prores-U](pkgs/davinci-resolve/encoders/UDaManFunks/prores-encoder/default.nix) | [github.com](https://github.com/gdaswani/prores_encoder) |
+| 2026-03-03 | 0-unstable-2026-06-21 | hexitnz | resolve-linux-studio-aac-fdk-encoder-plugin | [aac-fdk](pkgs/davinci-resolve/encoders/hexitnz/resolve-linux-studio-aac-fdk-encoder-plugin/default.nix) | [github.com](https://github.com/hexitnz/Resolve-Linux-Studio-AAC-FDK-Encoder-plugin) |
+| 2026-08-23 | 1.4.0 | EdvinNilsson | ffmpeg-encoder-plugin | [ffmpeg](pkgs/davinci-resolve/encoders/EdvinNilsson/ffmpeg-encoder-plugin/default.nix) | [github.com](https://github.com/EdvinNilsson/ffmpeg_encoder_plugin) |
+| 2026-03-03 | 0-unstable-2024-08-21 | UDaManFunks | prores-encoder | [prores-U](pkgs/davinci-resolve/encoders/UDaManFunks/prores-encoder/default.nix) | [github.com](https://github.com/gdaswani/prores_encoder) |
 | 2026-03-03 | 0.1 | jonny9f | resolve-prores | [prores-j](pkgs/davinci-resolve/encoders/jonny9f/resolve-prores/default.nix) | [github.com](https://github.com/jonny9f/resolve-prores) |
 | 2026-03-03 | 0.3 | nowrep | dvcp-vaapi | [vaapi](pkgs/davinci-resolve/encoders/nowrep/dvcp-vaapi/default.nix) | [github.com](https://github.com/nowrep/dvcp-vaapi) |
-| 2026-03-03 | 0.unstable-2025-05-14 | UDaManFunks | x264-encoder | [x264](pkgs/davinci-resolve/encoders/UDaManFunks/x264-encoder/default.nix) | [github.com](https://github.com/gdaswani/x264_encoder) |
-| 2026-03-03 | 0.unstable-2024-10-29 | UDaManFunks | x265-encoder | [x265](pkgs/davinci-resolve/encoders/UDaManFunks/x265-encoder/default.nix) | [github.com](https://github.com/gdaswani/x265_encoder) |
-| 2026-03-03 | 0.unstable-2024-08-22 | UDaManFunks | x265-encoder-10b | [x265-10b](pkgs/davinci-resolve/encoders/UDaManFunks/x265-encoder-10b/default.nix) | [github.com](https://github.com/gdaswani/x265_encoder_10b) |
+| 2026-03-03 | 0-unstable-2025-05-14 | UDaManFunks | x264-encoder | [x264](pkgs/davinci-resolve/encoders/UDaManFunks/x264-encoder/default.nix) | [github.com](https://github.com/gdaswani/x264_encoder) |
+| 2026-03-03 | 0-unstable-2024-10-29 | UDaManFunks | x265-encoder | [x265](pkgs/davinci-resolve/encoders/UDaManFunks/x265-encoder/default.nix) | [github.com](https://github.com/gdaswani/x265_encoder) |
+| 2026-03-03 | 0-unstable-2024-08-21 | UDaManFunks | x265-encoder-10b | [x265-10b](pkgs/davinci-resolve/encoders/UDaManFunks/x265-encoder-10b/default.nix) | [github.com](https://github.com/gdaswani/x265_encoder_10b) |
