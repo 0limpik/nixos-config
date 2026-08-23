@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
 
   cmake,
   ffmpeg,
@@ -39,6 +40,14 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [
+      "--flake"
+      "--override-filename"
+      "./pkgs/davinci-resolve/encoders/EdvinNilsson/ffmpeg-encoder-plugin/default.nix"
+    ];
+  };
 
   meta = with lib; {
     homepage = "https://github.com/EdvinNilsson/ffmpeg_encoder_plugin";

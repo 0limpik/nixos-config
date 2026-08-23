@@ -7,7 +7,7 @@ nix_update() {
   # 294|     builtins.removeAttrs result [ "__functor" ]
   # and
   # 222|       flake = import (outPath + "/flake.nix");
-  local flake_path=""
+  local flake_path package_escape="\"${package//./\".\"}\""
   flake_path="$(nix store add-path --name olimpikpkgs ./)" || return
   nix build \
     --extra-experimental-features 'flakes nix-command' \
@@ -18,14 +18,34 @@ nix_update() {
           let
             flake = builtins.getFlake \"${flake_path}\";
           in
-          flake.packages.\${builtins.currentSystem}.\"davinci-resolve-studio\" or flake.\"davinci-resolve-studio\"
+          flake.packages.\${builtins.currentSystem}.$package_escape or flake.$package_escape
         );
       in
       (pkgs.writeScript \"updateScript\" (
-        lib.escapeShellArgs (pkgs.lib.toList (pkg.updateScript.command or pkg.updateScript))
+        lib.escapeShellArgs (pkgs.lib.toList (pkg.updateScript.command or pkg.updateScript or \"\"))
       ))
     " >/dev/null 2>&1 || return
   nix store add-path --name olimpikpkgs ./ >/dev/null 2>&1 || return
+  rm --force "result"
+  flake_path="$(nix store add-path --name olimpikpkgs ./)" || return
+  nix build \
+    --extra-experimental-features 'flakes nix-command' \
+    --print-out-paths --impure --expr "
+      with import <nixpkgs> { };
+      pkgs.mkShell {
+        inputsFrom = [
+          (
+            let
+              flake = builtins.getFlake \"${flake_path}\";
+            in
+            flake.packages.\${builtins.currentSystem}.$package_escape
+              or flake.$package_escape
+          )
+        ];
+      }
+    " >/dev/null 2>&1 || return
+  nix store add-path --name olimpikpkgs ./ >/dev/null 2>&1 || return
+  rm --force "result"
 
   nix-update \
     --quiet \
@@ -78,7 +98,7 @@ bump_scope() {
 bump() {
   declare -A scopes
 
-  for key in "packages:4" "vscode_extensions:8"; do
+  for key in "packages:4" "vscode_extensions:8" "davinci_resolve_encoders:4"; do
     scopes[$key]=0
   done
 

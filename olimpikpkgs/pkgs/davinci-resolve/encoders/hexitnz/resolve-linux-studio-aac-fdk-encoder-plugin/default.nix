@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
 
   clang,
   llvmPackages,
@@ -46,6 +47,15 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [
+      "--version=branch"
+      "--flake"
+      "--override-filename"
+      "./pkgs/davinci-resolve/encoders/hexitnz/resolve-linux-studio-aac-fdk-encoder-plugin/default.nix"
+    ];
+  };
 
   meta = with lib; {
     homepage = "https://github.com/hexitnz/Resolve-Linux-Studio-AAC-FDK-Encoder-plugin";

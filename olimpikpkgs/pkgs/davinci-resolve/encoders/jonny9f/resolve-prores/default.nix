@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
 
   ffmpeg_4,
   zlib,
@@ -43,6 +44,15 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [
+      "--version=branch"
+      "--flake"
+      "--override-filename"
+      "./pkgs/davinci-resolve/encoders/UDaManFunks/x264-encoder/default.nix"
+    ];
+  };
 
   meta = with lib; {
     homepage = "https://github.com/jonny9f/resolve-prores";

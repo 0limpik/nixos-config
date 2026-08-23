@@ -15,7 +15,7 @@ in
 runCommandLocal "davinci-resolve-encoder-${original-name}"
   {
     inherit pname version;
-    inherit (dvcp) meta;
+    inherit (dvcp) src passthru meta;
   }
   /* bash */ ''
     if [[ ! -f "${dvcp}/encoder.dvcp" ]]; then

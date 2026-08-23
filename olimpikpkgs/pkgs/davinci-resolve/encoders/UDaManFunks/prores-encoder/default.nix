@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
 
   ffmpeg,
 
@@ -34,6 +35,15 @@ stdenv.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [
+      "--version=branch"
+      "--flake"
+      "--override-filename"
+      "./pkgs/davinci-resolve/encoders/UDaManFunks/prores-encoder/default.nix"
+    ];
+  };
 
   meta = with lib; {
     homepage = "https://github.com/gdaswani/prores_encoder";
