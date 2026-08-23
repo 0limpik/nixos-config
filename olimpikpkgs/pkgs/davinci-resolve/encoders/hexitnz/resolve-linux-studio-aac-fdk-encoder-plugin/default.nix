@@ -14,13 +14,13 @@
 
 stdenv.mkDerivation rec {
   pname = "resolve-linux-studio-aac-fdk-encoder-plugin";
-  version = "0.0.1";
+  version = "0-unstable-2026-06-21";
 
   src = fetchFromGitHub {
     owner = "hexitnz";
     repo = "Resolve-Linux-Studio-AAC-FDK-Encoder-plugin";
-    rev = "64fe082fa1fa9b725d7f4ca22b1d76016bb3e527";
-    hash = "sha256-jQszdeJfkcg7djJh5Dt5w19IlEeJTm+GciyL5RSYecM=";
+    rev = "232a5e04cb605236541cf0cd08bde3eed9f1f20a";
+    hash = "sha256-yygT+BYlTD/Zjqa0/P1tpw4RTiIW/Jj4YIGoUkzWXPk=";
   };
 
   patches = lib.optional uniform-names [

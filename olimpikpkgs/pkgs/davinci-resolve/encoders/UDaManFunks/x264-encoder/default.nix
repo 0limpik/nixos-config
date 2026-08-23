@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation {
   pname = "x264-encoder";
-  version = "0.unstable-2025-05-14";
+  version = "0-unstable-2025-05-14";
 
   src = fetchFromGitHub {
     owner = "gdaswani";
