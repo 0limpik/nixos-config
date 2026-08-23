@@ -1,25 +1,25 @@
 self="$(dirname "$(readlink --canonicalize "$0")")"
 
-update_system() {
+bump_system() {
   (
     # shellcheck disable=SC1091
-    source "$self/update-system.sh"
-    update "$self/../.." "$@"
+    source "$self/bump-system.sh"
+    bump "$self/../.." "$@"
     git add .
-    git commit --message "update system"
+    git diff --cached --quiet || git commit --message "bump system" || return
   )
 }
 
-update_pkgs() {
+bump_pkgs() {
   (
     # shellcheck disable=SC1091
-    source "$self/update-pkgs.sh"
+    source "$self/bump-pkgs.sh"
     cd "$self/.." || return
     trap 'rm --force "result"' EXIT
-    update "$@" || return
+    bump "$@" || return
     cd "-" || return
     git add .
-    git commit --message "update pkgs"
+    git diff --cached --quiet || git commit --message "bump pkgs" || return
   )
 }
 
@@ -28,19 +28,19 @@ shift
 
 # shellcheck disable=SC1091
 source "$self/init.sh"
-git stash push --include-untracked --message "glitch__olimpik-sync"
+git stash push --include-untracked --message "glitch__olimpik-bump"
 trap 'git stash pop --index' EXIT
 
 case "$target" in
 "system")
-  update_system "$@" || exit
+  bump_system "$@" || exit
   ;;
 "pkgs")
-  update_pkgs "$@" || exit
+  bump_pkgs "$@" || exit
   ;;
 "all")
-  update_system || exit
-  update_pkgs || exit
+  bump_system || exit
+  bump_pkgs || exit
   ;;
 *)
   echo "unknown target!" >&2

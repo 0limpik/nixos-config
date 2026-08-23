@@ -22,7 +22,7 @@ get_github_latest_tag() {
   echo "$tag_name"
 }
 
-update_flake_input_tag() {
+bump_flake_input_tag() {
   local url="${1:?url at first argument is required}"
   local path="${2:?path at second argument is required}"
 
@@ -48,7 +48,7 @@ update_flake_input_tag() {
     "$path"
 }
 
-update_flake() {
+bump_flake() {
   local path="${1:?path at first argument is required}"
 
   local urls
@@ -56,18 +56,18 @@ update_flake() {
     grep \
       --perl-regexp \
       --only-matching \
-      '(?<=")[^"]*(?=";.*#.* auto_update_tag)' \
+      '(?<=")[^"]*(?=";.*#.* auto_bump_tag)' \
       "$path"
   )"
   for url in $urls; do
-    update_flake_input_tag "$url" "$path" || return
+    bump_flake_input_tag "$url" "$path" || return
   done
 }
 
-update() (
+bump() (
   local path="${1:?path at first argument is required}"
 
-  update_flake "$path/flake.nix" || return
+  bump_flake "$path/flake.nix" || return
   nix flake update --flake "$path" || return
   nix flake update --flake "$path/olimpikpkgs" || return
 )

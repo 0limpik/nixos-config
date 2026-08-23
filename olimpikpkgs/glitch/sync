@@ -12,10 +12,10 @@ sync_config() {
       '### config.my' \
       '' >>"$location"
     generate "$location" || return
-  ) || return
 
-  git add .
-  git commit --message "synk config"
+    git add .
+    git diff --cached --quiet || git commit --message "synk config" || return
+  ) || return
 }
 
 sync_modules() {
@@ -29,10 +29,10 @@ sync_modules() {
       "### [options.my](module-list.nix)" \
       "" >>"$location"
     generate "$location" || return
-  ) || return
 
-  git add .
-  git commit --message "synk modules"
+    git add .
+    git diff --cached --quiet || git commit --message "synk modules" || return
+  ) || return
 }
 
 sync_pkgs() {
@@ -60,15 +60,16 @@ sync_pkgs() {
       "### [davinci-resolve-encoders](pkgs/davinci-resolve/encoders/encoders.nix)" \
       "" >>"$location"
     generate_davinci_resolve_encoders "$index" "$location" "$flake" || return
+
+    git add .
+    git diff --cached --quiet || git commit --message "synk pkgs" || return
   ) || return
 
-  git add .
-  git commit --message "synk pkgs"
 }
 
 # shellcheck disable=SC1091
 source "$self/init.sh"
-git stash push --include-untracked --message "glitch__olimpik-update"
+git stash push --include-untracked --message "glitch__olimpik-sync"
 trap 'git stash pop --index' EXIT
 
 target="${1:-all}"

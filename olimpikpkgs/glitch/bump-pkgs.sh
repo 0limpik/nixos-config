@@ -36,13 +36,13 @@ nix_update() {
   rm --force "result"
 }
 
-update_scope() {
+bump_scope() {
   local scope="${1:?scope at first argument is required}"
 
   local user_key="${scope//_/-}"
   printf '=%.0s' {1..16} >&2
   echo >&2
-  echo "update: ${user_key%:*}" >&2
+  echo "bump: ${user_key%:*}" >&2
   echo "processes: ${user_key#*:}" >&2
   local output
   output="$(nix eval --raw ".#maintained.${user_key%:*}")" || return
@@ -57,7 +57,7 @@ update_scope() {
 
     if ((processes == 1)); then
       for package in "${packages[@]}"; do
-        echo "update: $package"
+        echo "bump: $package"
         nix_update "$package"
       done
     else
@@ -66,25 +66,25 @@ update_scope() {
         xargs \
           --max-args 1 \
           --max-procs "${user_key#*:}" \
-          bash -c 'nix_update "$1"' _ ||
+          bash -c "nix_update \"\$1\"" _ ||
         return
     fi
   )
 }
 
-update() {
-  declare -A update
+bump() {
+  declare -A scopes
 
   for key in "packages:4" "vscode_extensions:8"; do
-    update[$key]=0
+    scopes[$key]=0
   done
 
   while [[ $# -gt 0 ]]; do
     local known=0
-    for key in "${!update[@]}"; do
+    for key in "${!scopes[@]}"; do
       user_key="${1//-/_}"
       if [[ $user_key == "${key%:*}" ]]; then
-        update[$key]=1
+        scopes[$key]=1
         shift 1
         known=1
       fi
@@ -96,24 +96,24 @@ update() {
   done
 
   local all=1
-  for value in "${update[@]}"; do
+  for value in "${scopes[@]}"; do
     if ((value == 1)); then
       all=0
       break
     fi
   done
   if ((all == 1)); then
-    for key in "${!update[@]}"; do
-      update[$key]=1
+    for key in "${!scopes[@]}"; do
+      scopes[$key]=1
     done
   fi
 
-  for key in "${!update[@]}"; do
-    value="${update[$key]}"
+  for key in "${!scopes[@]}"; do
+    value="${scopes[$key]}"
     if [[ $value == 0 ]]; then
       continue
     fi
 
-    update_scope "$key" || return
+    bump_scope "$key" || return
   done
 }
