@@ -27,7 +27,7 @@
 | 2026-08-14 | 1.36.0 | ms-python | vscode-python-envs | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-python-envs) |
 | 2026-08-14 | 1.23.52 | ms-vscode | cmake-tools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) |
 | 2026-08-12 | 0.5.14 | ms-vscode | cpp-devtools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpp-devtools) |
-| 2026-08-12 | 1.32.2 | ms-vscode | cpptools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) |
+| 2026-08-23 | 1.33.8 | ms-vscode | cpptools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) |
 | 2026-02-20 | 1.5.1 | ms-vscode | cpptools-extension-pack | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack) |
 | 2022-10-25 | 2.0.0 | ms-vscode | cpptools-themes | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-themes) |
 | 2026-08-12 | 0.4.20 | ms-vscode | live-server | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) |

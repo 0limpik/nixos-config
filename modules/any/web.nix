@@ -67,22 +67,23 @@ in
             attrs:
             let
               myMajor = "10.0";
-              myMinor = "57";
+              myMinor = "59";
+              myPatch = "1";
               myVersion = "${myMajor}.${myMinor}";
               isMy = (builtins.compareVersions myVersion attrs.version) == 1;
             in
             rec {
-              version = if isMy then myVersion else attrs.version;
+              version = if isMy then "${myVersion}.${myPatch}" else attrs.version;
               src = attrs.src.overrideAttrs (attrs: {
                 inherit version;
                 urls =
                   if isMy then
                     [
-                      "https://web9001.nomachine.com/download/${myMajor}/Linux/nomachine-personal-edition_${myVersion}_2_x86_64.tar.gz"
+                      "https://web9001.nomachine.com/download/${myMajor}/Linux/nomachine-personal-edition_${myVersion}_${myPatch}_x86_64.tar.gz"
                     ]
                   else
                     attrs.urls;
-                hash = if isMy then "sha256-5jeGX1H92zKnO1qGv0/0oVdS2AhSlrDZsfmD/RqT0Ak=" else attrs.hash;
+                hash = if isMy then "sha256-idrB+BUq1v5350qvHzuxUva3kGzUpnNrmwuuDTn7Kw4=" else attrs.hash;
               });
             }
           );
