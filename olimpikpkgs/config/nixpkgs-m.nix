@@ -1,9 +1,9 @@
-system: pkgs:
+args: pkgs:
 let
-  config = import ./nixpkgs.nix { inherit (pkgs) lib; };
+  config = import ./nixpkgs.nix { inherit (pkgs) lib; inherit args; };
 in
 import pkgs {
-  inherit system;
+  inherit (args) system;
   config = {
     allowUnfreePredicate = config.allowUnfreePredicate "m" [
       "discord"

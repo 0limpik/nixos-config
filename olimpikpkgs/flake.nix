@@ -20,14 +20,17 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      pkgs-s = import ./config/nixpkgs-s.nix system nixpkgs-s;
-      pkgs-u = import ./config/nixpkgs-u.nix system nixpkgs-u;
-      pkgs-m = import ./config/nixpkgs-m.nix system nixpkgs-m;
+      args = {
+        system = "x86_64-linux";
+      };
+      pkgs-u = import ./config/nixpkgs-u.nix args nixpkgs-u;
+      args.nix-update-script = pkgs-u.nix-update-script;
+      pkgs-s = import ./config/nixpkgs-s.nix args nixpkgs-s;
+      pkgs-m = import ./config/nixpkgs-m.nix args nixpkgs-m;
     in
     rec {
-      lib."${system}" = import ./lib/default.nix;
-      packages."${system}" = import ./pkgs/all-packages.nix {
+      lib."${args.system}" = import ./lib/default.nix;
+      packages."${args.system}" = import ./pkgs/all-packages.nix {
         inherit (pkgs-s) lib newScope;
         inherit
           pkgs-s
@@ -40,7 +43,7 @@
       homeManagerModules = import ./modules/module-list.nix;
       maintained = import ./lib/maintained.nix {
         lib = pkgs-s.lib;
-        pkgs = packages."${system}";
+        pkgs = packages."${args.system}";
       };
     };
 }

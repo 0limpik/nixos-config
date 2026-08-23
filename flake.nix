@@ -77,23 +77,25 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-
-      pkgs-s = import ./olimpikpkgs/config/nixpkgs-s.nix system nixpkgs-s;
-      pkgs-u = import ./olimpikpkgs/config/nixpkgs-u.nix system nixpkgs-u;
-      pkgs-m = import ./olimpikpkgs/config/nixpkgs-m.nix system nixpkgs-m;
-      pkgs-o = olimpikpkgs.packages."${system}";
+      args = {
+        system = "x86_64-linux";
+      };
+      pkgs-u = import ./olimpikpkgs/config/nixpkgs-u.nix args nixpkgs-u;
+      args.nix-update-script = pkgs-u.nix-update-script;
+      pkgs-s = import ./olimpikpkgs/config/nixpkgs-s.nix args nixpkgs-s;
+      pkgs-m = import ./olimpikpkgs/config/nixpkgs-m.nix args nixpkgs-m;
+      pkgs-o = olimpikpkgs.packages."${args.system}";
       lib-o =
         source:
-        olimpikpkgs.lib."${system}" {
+        olimpikpkgs.lib."${args.system}" {
           inherit source;
           path = ./.;
           inherit (pkgs-s) lib;
         };
 
-      args = {
+      baseArgs = {
+        inherit (args) system;
         inherit
-          system
           inputs
           pkgs-s
           pkgs-u
@@ -102,9 +104,9 @@
           ;
       };
       systemArgs = {
-        inherit system;
+        inherit (args) system;
         pkgs = pkgs-s;
-        specialArgs = args // {
+        specialArgs = baseArgs // {
           lib-o = lib-o "system";
           osConfig = null;
           isSystem = true;
@@ -113,7 +115,7 @@
           };
         };
       };
-      homeArgs = args // {
+      homeArgs = baseArgs // {
         lib-o = lib-o "home";
         isSystem = false;
         packages = pkgs: {

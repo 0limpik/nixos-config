@@ -54,19 +54,22 @@ bump_scope() {
 
   local processes="${user_key#*:}"
   (
-
     if ((processes == 1)); then
       for package in "${packages[@]}"; do
+        if [[ $package != * ]]; then
+          continue
+        fi
         echo "bump: $package"
         nix_update "$package" || return
       done
     else
       export -f nix_update
+      # shellcheck disable=SC2016
       printf '%s\n' "${packages[@]}" |
         xargs \
           --max-args 1 \
           --max-procs "${user_key#*:}" \
-          bash -c "nix_update \"\$1\"" _ ||
+          bash -c 'nix_update "$1"' _ ||
         return
     fi
   )
