@@ -1,8 +1,8 @@
 {
   ms-vscode = {
     cpptools = {
-      version = "1.32.2";
-      hash = "sha256-SRK4LzWbWy5NiLSsGIIqORzCUBkoKUmAH971bohJGgU=";
+      version = "1.33.8";
+      hash = "sha256-mTez9h/cYdivfe0DLlyCffyQ70g4+SBIuXfBYd5b/G4=";
     };
     cpp-devtools = {
       version = "0.5.14";
