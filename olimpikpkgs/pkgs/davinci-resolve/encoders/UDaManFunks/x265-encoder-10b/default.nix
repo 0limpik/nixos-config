@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "x265-encoder-10b";
-  version = "0.unstable-2024-08-22";
+  version = "0-unstable-2024-08-21";
 
   src = fetchFromGitHub {
     owner = "gdaswani";

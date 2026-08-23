@@ -1,155 +1,359 @@
-From 0030d5243581183141d04e5a4abab175d95435cb Mon Sep 17 00:00:00 2001
+From a8049f4f7ba4a60c7696b1878d0ae9c15762e76c Mon Sep 17 00:00:00 2001
 From: Evgeniy Galyuta <olimpik.net@gmail.com>
-Date: Mon, 2 Mar 2026 22:58:17 +0300
+Date: Sun, 23 Aug 2026 21:35:27 +0300
 Subject: [PATCH] uniform names
 
 ---
- av1_encoder.cpp        | 4 ++--
- av1_nvenc_encoder.cpp  | 4 ++--
- h264_encoder.cpp       | 4 ++--
- h264_nvenc_encoder.cpp | 4 ++--
- h265_encoder.cpp       | 4 ++--
- h265_nvenc_encoder.cpp | 4 ++--
- svt_av1_encoder.cpp    | 4 ++--
- x264_encoder.cpp       | 4 ++--
- x265_encoder.cpp       | 4 ++--
- 9 files changed, 18 insertions(+), 18 deletions(-)
+ av1_nvenc_encoder.cpp   |  4 ++--
+ av1_vaapi_encoder.cpp   |  4 ++--
+ av1_vulkan_encoder.cpp  |  4 ++--
+ h264_nvenc_encoder.cpp  |  4 ++--
+ h264_vaapi_encoder.cpp  |  4 ++--
+ h264_vulkan_encoder.cpp |  4 ++--
+ h265_nvenc_encoder.cpp  |  4 ++--
+ h265_vaapi_encoder.cpp  |  4 ++--
+ h265_vulkan_encoder.cpp |  4 ++--
+ svt_av1_encoder.cpp     |  4 ++--
+ x264_encoder.cpp        | 12 ++++++------
+ x265_encoder.cpp        | 12 ++++++------
+ 12 files changed, 32 insertions(+), 32 deletions(-)
 
-diff --git a/av1_encoder.cpp b/av1_encoder.cpp
-index f565b8f..b54ef7d 100644
---- a/av1_encoder.cpp
-+++ b/av1_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo Av1Encoder::encoderInfo = {
-     .UUID{0x95, 0x43, 0x6f, 0x52, 0xfb, 0xab, 0x11, 0x60, 0x04, 0x51, 0xf8, 0x5b, 0x83, 0xa4, 0x76, 0x4d},
--    .codecGroup = "AV1",
--    .codecName = "VAAPI (FFmpeg)",
-+    .codecGroup = "AV1 [ffmpeg]",
-+    .codecName = "VAAPI",
-     .fourCC = 'av01',
-     .encoder = "av1_vaapi",
-     .hwAcceleration = Vaapi,
 diff --git a/av1_nvenc_encoder.cpp b/av1_nvenc_encoder.cpp
-index 564441b..dce621a 100644
+index 88b62f3..9f98465 100644
 --- a/av1_nvenc_encoder.cpp
 +++ b/av1_nvenc_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo Av1NvencEncoder::encoderInfo = {
-     .UUID{0x68, 0x78, 0x8d, 0xc5, 0xdd, 0xb1, 0x73, 0x07, 0x46, 0x10, 0xdf, 0xa7, 0xb3, 0x82, 0x89, 0x16},
--    .codecGroup = "AV1",
--    .codecName = "NVENC (FFmpeg)",
-+    .codecGroup = "AV1 [ffmpeg]",
-+    .codecName = "NVENC",
-     .fourCC = 'av01',
-     .encoder = "av1_nvenc",
-     .hwAcceleration = Nvenc,
-diff --git a/h264_encoder.cpp b/h264_encoder.cpp
-index 1e12a07..e0e6c83 100644
---- a/h264_encoder.cpp
-+++ b/h264_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo H264Encoder::encoderInfo = {
-     .UUID{0xaa, 0xeb, 0x0f, 0x28, 0x4c, 0x6f, 0x4e, 0x3f, 0x95, 0xdd, 0x23, 0x43, 0x41, 0xf3, 0x8d, 0xa0},
--    .codecGroup = "H.264",
--    .codecName = "VAAPI (FFmpeg)",
-+    .codecGroup = "H.264 [ffmpeg]",
-+    .codecName = "VAAPI",
-     .fourCC = 'avc1',
-     .encoder = "h264_vaapi",
-     .hwAcceleration = Vaapi,
+@@ -22,7 +22,7 @@ const EncoderInfo Av1NvencEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "NVENC 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "NVENC 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -30,7 +30,7 @@ const EncoderInfo Av1NvencEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "NVENC 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "NVENC 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+diff --git a/av1_vaapi_encoder.cpp b/av1_vaapi_encoder.cpp
+index 047eeb7..5732e41 100644
+--- a/av1_vaapi_encoder.cpp
++++ b/av1_vaapi_encoder.cpp
+@@ -15,7 +15,7 @@ EncoderInfo Av1VaapiEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "VAAPI 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "VAAPI 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -23,7 +23,7 @@ EncoderInfo Av1VaapiEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "VAAPI 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "VAAPI 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+diff --git a/av1_vulkan_encoder.cpp b/av1_vulkan_encoder.cpp
+index de704d3..5669705 100644
+--- a/av1_vulkan_encoder.cpp
++++ b/av1_vulkan_encoder.cpp
+@@ -15,7 +15,7 @@ EncoderInfo Av1VulkanEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "Vulkan 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "Vulkan 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -23,7 +23,7 @@ EncoderInfo Av1VulkanEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "Vulkan 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "Vulkan 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
 diff --git a/h264_nvenc_encoder.cpp b/h264_nvenc_encoder.cpp
-index 80591ea..7db9550 100644
+index 1292981..e8becf0 100644
 --- a/h264_nvenc_encoder.cpp
 +++ b/h264_nvenc_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo H264NvencEncoder::encoderInfo = {
-     .UUID{0x10, 0x2f, 0x9d, 0x71, 0x19, 0xd7, 0xa8, 0xde, 0x90, 0xb1, 0xff, 0x35, 0x91, 0x4f, 0xaa, 0x36},
--    .codecGroup = "H.264",
--    .codecName = "NVENC (FFmpeg)",
-+    .codecGroup = "H.264 [ffmpeg] ",
-+    .codecName = "NVENC",
-     .fourCC = 'avc1',
-     .encoder = "h264_nvenc",
-     .hwAcceleration = Nvenc,
-diff --git a/h265_encoder.cpp b/h265_encoder.cpp
-index e383279..50061a5 100644
---- a/h265_encoder.cpp
-+++ b/h265_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo H265Encoder::encoderInfo = {
-     .UUID{0x2b, 0xfa, 0xeb, 0xed, 0xaa, 0x3d, 0x45, 0xbf, 0xe2, 0x27, 0x32, 0x4a, 0x96, 0x7a, 0xb4, 0x66},
--    .codecGroup = "H.265",
--    .codecName = "VAAPI (FFmpeg)",
-+    .codecGroup = "H.265 [ffmpeg]",
-+    .codecName = "VAAPI",
-     .fourCC = 'hvc1',
-     .encoder = "hevc_vaapi",
-     .hwAcceleration = Vaapi,
+@@ -22,7 +22,7 @@ const EncoderInfo H264NvencEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "NVENC 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "NVENC 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -30,7 +30,7 @@ const EncoderInfo H264NvencEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "NVENC 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "NVENC 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+diff --git a/h264_vaapi_encoder.cpp b/h264_vaapi_encoder.cpp
+index 69019a9..0750f70 100644
+--- a/h264_vaapi_encoder.cpp
++++ b/h264_vaapi_encoder.cpp
+@@ -15,7 +15,7 @@ EncoderInfo H264VaapiEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "VAAPI 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "VAAPI 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -23,7 +23,7 @@ EncoderInfo H264VaapiEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "VAAPI 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "VAAPI 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+diff --git a/h264_vulkan_encoder.cpp b/h264_vulkan_encoder.cpp
+index 0687d34..f1f4931 100644
+--- a/h264_vulkan_encoder.cpp
++++ b/h264_vulkan_encoder.cpp
+@@ -15,7 +15,7 @@ EncoderInfo H264VulkanEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "Vulkan 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "Vulkan 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -23,7 +23,7 @@ EncoderInfo H264VulkanEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "Vulkan 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "Vulkan 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
 diff --git a/h265_nvenc_encoder.cpp b/h265_nvenc_encoder.cpp
-index 18c260a..2965907 100644
+index d8f327f..9b3bfa4 100644
 --- a/h265_nvenc_encoder.cpp
 +++ b/h265_nvenc_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo H265NvencEncoder::encoderInfo = {
-     .UUID{0xe6, 0x85, 0xbb, 0x38, 0xb5, 0xf4, 0x72, 0xe9, 0x2a, 0x6a, 0x77, 0x2f, 0xe6, 0x7f, 0x3e, 0x8e},
--    .codecGroup = "H.265",
--    .codecName = "NVENC (FFmpeg)",
-+    .codecGroup = "H.265 [ffmpeg]",
-+    .codecName = "NVENC",
-     .fourCC = 'hvc1',
-     .encoder = "hevc_nvenc",
-     .hwAcceleration = Nvenc,
+@@ -22,7 +22,7 @@ const EncoderInfo H265NvencEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "NVENC 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "NVENC 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -30,7 +30,7 @@ const EncoderInfo H265NvencEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "NVENC 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "NVENC 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+diff --git a/h265_vaapi_encoder.cpp b/h265_vaapi_encoder.cpp
+index d4d2970..bdece4d 100644
+--- a/h265_vaapi_encoder.cpp
++++ b/h265_vaapi_encoder.cpp
+@@ -15,7 +15,7 @@ EncoderInfo H265VaapiEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "VAAPI 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "VAAPI 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -23,7 +23,7 @@ EncoderInfo H265VaapiEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "VAAPI 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "VAAPI 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+diff --git a/h265_vulkan_encoder.cpp b/h265_vulkan_encoder.cpp
+index f3ec7af..ed653c2 100644
+--- a/h265_vulkan_encoder.cpp
++++ b/h265_vulkan_encoder.cpp
+@@ -15,7 +15,7 @@ EncoderInfo H265VulkanEncoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "Vulkan 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "Vulkan 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -23,7 +23,7 @@ EncoderInfo H265VulkanEncoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_NV12,
+             },
+             {
+-                .codecName = "Vulkan 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "Vulkan 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
 diff --git a/svt_av1_encoder.cpp b/svt_av1_encoder.cpp
-index c960b34..9cfd5b5 100644
+index 82e2a93..2db306c 100644
 --- a/svt_av1_encoder.cpp
 +++ b/svt_av1_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo SvtAv1Encoder::encoderInfo = {
-     .UUID{0x97, 0x39, 0xbb, 0x53, 0x9b, 0x97, 0xd0, 0x0e, 0x3e, 0x1c, 0x90, 0xeb, 0x70, 0x75, 0x9d, 0xcc},
--    .codecGroup = "AV1",
--    .codecName = "SVT-AV1 (FFmpeg)",
-+    .codecGroup = "AV1 [ffmpeg] ",
-+    .codecName = "SVT-AV1",
-     .fourCC = 'av01',
-     .encoder = "libsvtav1",
-     .hwAcceleration = None,
+@@ -29,7 +29,7 @@ const EncoderInfo SvtAv1Encoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "SVT-AV1 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "SVT-AV1 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 2,
+@@ -37,7 +37,7 @@ const EncoderInfo SvtAv1Encoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_YUV420P,
+             },
+             {
+-                .codecName = "SVT-AV1 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "SVT-AV1 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
 diff --git a/x264_encoder.cpp b/x264_encoder.cpp
-index f537ef1..5133936 100644
+index c405bba..4fb921f 100644
 --- a/x264_encoder.cpp
 +++ b/x264_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo X264Encoder::encoderInfo = {
-     .UUID{0x10, 0x33, 0x0b, 0xa7, 0x8e, 0xf2, 0x9c, 0xc6, 0x19, 0xa3, 0x56, 0xa7, 0x8a, 0xa5, 0x17, 0xc8},
--    .codecGroup = "H.264",
--    .codecName = "X264 (FFmpeg)",
-+    .codecGroup = "H.264 [ffmpeg]",
-+    .codecName = "X264",
-     .fourCC = 'avc1',
-     .encoder = "libx264",
-     .hwAcceleration = None,
+@@ -37,7 +37,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "x264 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "x264 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 2,
+@@ -45,7 +45,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_YUV420P,
+             },
+             {
+-                .codecName = "x264 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "x264 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -54,7 +54,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
+                 .pixelFormatRepacker = convertP010ToYUV420P10,
+             },
+             {
+-                .codecName = "x264 8-bit 4:2:2 (FFmpeg)",
++                .codecName = "x264 8-bit 4:2:2 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrUYVY,
+                 .hSubsampling = 2,
+@@ -63,7 +63,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
+                 .pixelFormatRepacker = convertUYVY422ToYUV422P,
+             },
+             {
+-                .codecName = "x264 10-bit 4:2:2 (FFmpeg)",
++                .codecName = "x264 10-bit 4:2:2 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrV210,
+                 .hSubsampling = 2,
+@@ -72,7 +72,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
+                 .pixelFormatRepacker = convertV210ToYUV422P10,
+             },
+             {
+-                .codecName = "x264 8-bit 4:4:4 (FFmpeg)",
++                .codecName = "x264 8-bit 4:4:4 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 1,
+@@ -80,7 +80,7 @@ const EncoderInfo X264Encoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_YUV444P,
+             },
+             {
+-                .codecName = "x264 10-bit 4:4:4 (FFmpeg)",
++                .codecName = "x264 10-bit 4:4:4 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 1,
 diff --git a/x265_encoder.cpp b/x265_encoder.cpp
-index def71fe..2cda428 100644
+index a33cf8a..a460dae 100644
 --- a/x265_encoder.cpp
 +++ b/x265_encoder.cpp
-@@ -2,8 +2,8 @@
- 
- const EncoderInfo X265Encoder::encoderInfo = {
-     .UUID{0x45, 0x0f, 0xed, 0x9a, 0x6e, 0x44, 0xec, 0x0f, 0xec, 0x97, 0xe6, 0xb4, 0xe5, 0x53, 0x8f, 0x73},
--    .codecGroup = "H.265",
--    .codecName = "X265 (FFmpeg)",
-+    .codecGroup = "H.265 [ffmpeg]",
-+    .codecName = "X265",
-     .fourCC = 'hvc1',
-     .encoder = "libx265",
-     .hwAcceleration = None,
+@@ -35,7 +35,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
+     .formats =
+         {
+             {
+-                .codecName = "x265 8-bit 4:2:0 (FFmpeg)",
++                .codecName = "x265 8-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 2,
+@@ -43,7 +43,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_YUV420P,
+             },
+             {
+-                .codecName = "x265 10-bit 4:2:0 (FFmpeg)",
++                .codecName = "x265 10-bit 4:2:0 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrNV12,
+                 .hSubsampling = 2,
+@@ -52,7 +52,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
+                 .pixelFormatRepacker = convertP010ToYUV420P10,
+             },
+             {
+-                .codecName = "x265 8-bit 4:2:2 (FFmpeg)",
++                .codecName = "x265 8-bit 4:2:2 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrUYVY,
+                 .hSubsampling = 2,
+@@ -61,7 +61,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
+                 .pixelFormatRepacker = convertUYVY422ToYUV422P,
+             },
+             {
+-                .codecName = "x265 10-bit 4:2:2 (FFmpeg)",
++                .codecName = "x265 10-bit 4:2:2 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrV210,
+                 .hSubsampling = 2,
+@@ -70,7 +70,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
+                 .pixelFormatRepacker = convertV210ToYUV422P10,
+             },
+             {
+-                .codecName = "x265 8-bit 4:4:4 (FFmpeg)",
++                .codecName = "x265 8-bit 4:4:4 [ffmpeg]",
+                 .bitDepth = 8,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 1,
+@@ -78,7 +78,7 @@ const EncoderInfo X265Encoder::encoderInfo = {
+                 .pixelFormat = AV_PIX_FMT_YUV444P,
+             },
+             {
+-                .codecName = "x265 10-bit 4:4:4 (FFmpeg)",
++                .codecName = "x265 10-bit 4:4:4 [ffmpeg]",
+                 .bitDepth = 10,
+                 .colorModel = clrYUVp,
+                 .hSubsampling = 1,
 -- 
-2.51.2
+2.54.0
 
