@@ -1,10 +1,10 @@
-sefl="$(dirname "$(readlink --canonicalize "$0")")"
+self="$(dirname "$(readlink --canonicalize "$0")")"
 
 sync_config() {
   local location="${1:-./config/index.md}"
   (
     # shellcheck disable=SC1091
-    source "$sefl/generate-config.sh"
+    source "$self/generate-config.sh"
 
     printf '' >"$location"
     printf '%s\n' \
@@ -22,7 +22,7 @@ sync_modules() {
   local location="${1:-./modules/index.md}"
   (
     # shellcheck disable=SC1091
-    source "$sefl/generate-modules.sh"
+    source "$self/generate-modules.sh"
 
     printf '' >"$location"
     printf '%s\n' \
@@ -40,7 +40,7 @@ sync_pkgs() {
   local flake="${2:-./olimpikpkgs}"
   (
     # shellcheck disable=SC1091
-    source "$sefl/generate-pkgs.sh"
+    source "$self/generate-pkgs.sh"
 
     local index
     index="$(<"$location")" || return
