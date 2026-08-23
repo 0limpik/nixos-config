@@ -91,7 +91,14 @@ in
                 ln --symbolic "${plasma-sdk}/share" "$out/share"
               '';
           packages = [
-            pkgs-s.xwayland-satellite
+            (pkgs-s.xwayland-satellite.overrideAttrs (attrs: {
+              patches = (attrs.patches or [ ]) ++ [
+                (pkgs-s.fetchpatch {
+                  url = "https://raw.githubusercontent.com/Johanx22x/dotfiles/52492ef94d72c5f2a10755fece9a18c02bab08ad/packages/xwayland-satellite/480-dialog-toplevel.patch";
+                  hash = "sha256-4z5Gx94Rfti96UHhtyoDNZH+zYq1IRd+9VmU2OurN+I=";
+                })
+              ];
+            }))
             pkgs-s.xdg-desktop-portal
             pkgs-s.kdePackages.polkit-kde-agent-1
             pkgs-s.kdePackages.xdg-desktop-portal-kde
