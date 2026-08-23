@@ -22,7 +22,7 @@
 | image.comfy-ui.enable | [✔](config/olimpik/MS-7B85.nix) | [✗](modules/any/image.nix) | [✗](modules/any/image.nix) | [✗](modules/any/image.nix) |
 | image.enable | [✔](config/olimpik/MS-7B85.nix) | [✔](modules/any/image.nix) | [✔](modules/any/image.nix) | [✔](modules/any/image.nix) |
 | monitoring.enable | [✔](config/olimpik/MS-7B85.nix) | [✔](config/olimpik/G1619-04.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
-| monitoring.run | [MBS6·9B2P missioncenter-run](modules/any/monitoring.nix) | [MBS6·9B2P missioncenter-run](modules/any/monitoring.nix) | [MBS6·9B2P missioncenter-run](modules/any/monitoring.nix) | [MBS6·9B2P missioncenter-run](modules/any/monitoring.nix) |
+| monitoring.run | [6YN6·X5KD missioncenter-run](modules/any/monitoring.nix) | [6YN6·X5KD missioncenter-run](modules/any/monitoring.nix) | [6YN6·X5KD missioncenter-run](modules/any/monitoring.nix) | [6YN6·X5KD missioncenter-run](modules/any/monitoring.nix) |
 | music.enable | [✗](modules/any/music.nix) | [✗](modules/any/music.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | music.startup | [✗](modules/any/music.nix) | [✗](modules/any/music.nix) | [✔](config/olimpik/home.nix) | [✗](config/olimpik/home.nix) |
 | office.enable | [✗](modules/any/office.nix) | [✗](modules/any/office.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
@@ -40,7 +40,7 @@
 | video.export.blackmagic | [✔](config/olimpik/MS-7B85.nix) | [✗](modules/any/video.nix) | [✗](modules/any/video.nix) | [✗](modules/any/video.nix) |
 | video.export.enable | [✔](config/olimpik/MS-7B85.nix) | [✔](config/olimpik/G1619-04.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | video.import.enable | [✔](modules/any/video.nix) | [✔](modules/any/video.nix) | [✔](modules/any/video.nix) | [✔](modules/any/video.nix) |
-| web.browser | [6PII·SXNS google-chrome-151.0.7922.108](modules/any/web.nix) | [6PII·SXNS google-chrome-151.0.7922.108](modules/any/web.nix) | [6PII·SXNS google-chrome-151.0.7922.108](modules/any/web.nix) | [6PII·SXNS google-chrome-151.0.7922.108](modules/any/web.nix) |
+| web.browser | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) |
 | web.enable | [✔](modules/any/web.nix) | [✔](modules/any/web.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | wifi-interface | [wlo1](config/MS-7B85) | [wlp1s0](config/G1619-04) | – | – |
 | windows.enable | [✔](config/olimpik/MS-7B85.nix) | [✔](config/olimpik/G1619-04.nix) | [✗](modules/any/windows.nix) | [✗](modules/any/windows.nix) |
