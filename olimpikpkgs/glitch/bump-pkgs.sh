@@ -58,7 +58,7 @@ bump_scope() {
     if ((processes == 1)); then
       for package in "${packages[@]}"; do
         echo "bump: $package"
-        nix_update "$package"
+        nix_update "$package" || return
       done
     else
       export -f nix_update

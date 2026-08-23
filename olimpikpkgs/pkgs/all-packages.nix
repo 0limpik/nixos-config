@@ -15,7 +15,7 @@ builtins.removeAttrs
       callPackage-u = pkgs-u.callPackage;
       callPackage-m = pkgs-m.callPackage;
     in
-    {
+    rec {
       bmx = callPackage ./bmx/package.nix { };
       catppuccin = {
         icons = callPackage ./catppuccin/icons.nix { };
@@ -39,8 +39,11 @@ builtins.removeAttrs
         steam = pkgs-u.steam;
       };
       tsmuxer = callPackage ./tsmuxer/package.nix { };
+      vencord = callPackage-m ./vencord/package.nix { };
       vesktop = callPackage-m ./vesktop/package.nix {
         inherit (pkgs-u) electron_43;
+        inherit (pkgs-m) vesktop;
+        inherit vencord;
       };
       vscode-extensions = callPackage-s ./vscode-extensions { };
     }
