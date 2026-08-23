@@ -67,7 +67,7 @@ in
             attrs:
             let
               myMajor = "10.0";
-              myMinor = "57";
+              myMinor = "59";
               myPatch = "1";
               myVersion = "${myMajor}.${myMinor}";
               isMy = (builtins.compareVersions myVersion attrs.version) == 1;
@@ -83,7 +83,7 @@ in
                     ]
                   else
                     attrs.urls;
-                hash = if isMy then "sha256-5jeGX1H92zKnO1qGv0/0oVdS2AhSlrDZsfmD/RqT0Ak=" else attrs.hash;
+                hash = if isMy then "sha256-idrB+BUq1v5350qvHzuxUva3kGzUpnNrmwuuDTn7Kw4=" else attrs.hash;
               });
             }
           );
