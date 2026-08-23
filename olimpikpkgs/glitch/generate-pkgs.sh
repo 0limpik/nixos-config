@@ -7,6 +7,8 @@ get_updated() {
   if [[ $package =~ \|[[:space:]]([0-9]{4}-[0-9]{2}-[0-9]{2})[[:space:]]\|[[:space:]]([^[:space:]]*)[[:space:]]\| ]]; then
     updated="${BASH_REMATCH[1]}"
     current_version="${BASH_REMATCH[2]}"
+  else
+    updated="$(date '+%Y-%m-%d')"
   fi
 
   local lower_version=""
