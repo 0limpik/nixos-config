@@ -171,10 +171,15 @@ latest_hash="$(
   nix store prefetch-file \
     --quiet \
     --json \
+    --name "source" \
     "$archive_prefix/$archive_postfix" \
     2>/dev/null |
     jq --raw-output '.hash'
 )" || exit $?
+
+if [[ -z $latest_hash ]]; then
+  fatal "empty latest_hash!"
+fi
 
 log "${version} -> $latest_version"
 

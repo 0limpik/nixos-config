@@ -13,6 +13,9 @@ sync_config() {
       '' >>"$location"
     generate "$location" || return
   ) || return
+
+  git add .
+  git commit --message "synk config"
 }
 
 sync_modules() {
@@ -27,6 +30,9 @@ sync_modules() {
       "" >>"$location"
     generate "$location" || return
   ) || return
+
+  git add .
+  git commit --message "synk modules"
 }
 
 sync_pkgs() {
@@ -55,7 +61,15 @@ sync_pkgs() {
       "" >>"$location"
     generate_davinci_resolve_encoders "$index" "$location" "$flake" || return
   ) || return
+
+  git add .
+  git commit --message "synk pkgs"
 }
+
+# shellcheck disable=SC1091
+source "$self/init.sh"
+git stash push --include-untracked --message "glitch__olimpik-update"
+trap 'git stash pop --index' EXIT
 
 target="${1:-all}"
 shift
