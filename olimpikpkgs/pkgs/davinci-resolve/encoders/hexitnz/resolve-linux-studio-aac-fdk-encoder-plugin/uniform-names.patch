@@ -1,25 +1,25 @@
-From 72d46613913fc1fc3cc758c80687d930e5dd2279 Mon Sep 17 00:00:00 2001
+From 248662f461081a4b3767844e8fa14b5d9a8fa223 Mon Sep 17 00:00:00 2001
 From: Evgeniy Galyuta <olimpik.net@gmail.com>
-Date: Tue, 3 Mar 2026 01:30:27 +0300
+Date: Sun, 23 Aug 2026 21:40:59 +0300
 Subject: [PATCH] uniform names
 
 ---
  aac_encoder.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/aac_encoder.cpp b/src/aac_encoder.cpp
-index dc7a682..6933673 100644
+diff --git a/aac_encoder.cpp b/aac_encoder.cpp
+index 451db15..6a48572 100644
 --- a/aac_encoder.cpp
 +++ b/aac_encoder.cpp
-@@ -43,7 +43,7 @@ StatusCode AACEncoder::s_RegisterCodecs(HostListRef* p_pList)
+@@ -112,7 +112,7 @@ StatusCode AACEncoder::s_RegisterCodecs(HostListRef* p_pList)
  
      codecInfo.SetProperty(pIOPropUUID, propTypeUInt8, AACEncoder::s_UUID, 16);
  
--    const char* pCodecName = "AAC (FDK-AAC)";
-+    const char* pCodecName = "AAC [aac-fdk]";
+-    const char* pCodecName = "AAC 2.0 (FDK-AAC)";
++    const char* pCodecName = "AAC 2.0 [aac-fdk]";
      codecInfo.SetProperty(pIOPropName, propTypeString, pCodecName, strlen(pCodecName));
  
      uint32_t val = 'aac ';
 -- 
-2.51.2
+2.54.0
 
