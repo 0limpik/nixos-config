@@ -28,8 +28,8 @@ let
   src = fetchFromGitHub {
     owner = "paulpacifico";
     repo = "shutter-encoder";
-    tag = "20.2";
-    hash = "sha256-Z57S4UYwK254z+idnNKGxvJATl+hi1v73fOVFpS0CAM=";
+    tag = "20.3";
+    hash = "sha256-pt/qosD5NARcCGWZJwnIH7q0o/7ME+sEnj9Ug6/H/lY=";
   };
   jre =
     (jre25_minimal.override {

@@ -5,8 +5,8 @@
       hash = "sha256-mTez9h/cYdivfe0DLlyCffyQ70g4+SBIuXfBYd5b/G4=";
     };
     cpp-devtools = {
-      version = "0.5.14";
-      hash = "sha256-9W+Ub//WFrfnMt4vbm+cvLqniXJ04I9N60D/5i7AAQw=";
+      version = "0.6.18";
+      hash = "sha256-5eq0m1jOyYzN8JCJWHWQFdkt1OzvBcO9P7cQ5dY7DoA=";
     };
     cpptools-themes = {
       version = "2.0.0";
@@ -39,8 +39,8 @@
   };
   ms-vscode-remote = {
     remote-ssh = {
-      version = "0.124.0";
-      hash = "sha256-GokSJOEpHomkBbkPUBhVXWZCrGbi5oZTlw5PFV12ZBY=";
+      version = "0.128.0";
+      hash = "sha256-RYv96lYoQKOk2cskbP6aISxnoMkxeo/dDSKurtyCvyw=";
     };
     remote-ssh-edit = {
       version = "0.87.0";
@@ -83,20 +83,20 @@
 
   theqtcompany = {
     qt-core = {
-      version = "1.14.0";
-      hash = "sha256-tbfIhRzNYcpVknMsPuFQkYyQop4ST25tpXsXhd3PVGI=";
+      version = "1.16.0";
+      hash = "sha256-6NBWsK7ljx7Ie3xvOrjBClyvwQP1UltCna1jQHJST5U=";
     };
     qt-qml = {
-      version = "1.14.0";
-      hash = "sha256-5Hx9Y73osV3Kd795q4i8sQWTtecRlM0YNxwMJQQ8nxE=";
+      version = "1.16.0";
+      hash = "sha256-QWjUSbBtHIdxYZyRBDn64HXhvSwhgzm7DjDaed6lNds=";
     };
     qt-ui = {
-      version = "1.14.0";
-      hash = "sha256-E/0KMhBSAorkzCfg8mgYt4T2v8D46gR8mej/0Gbuk9w=";
+      version = "1.16.0";
+      hash = "sha256-pmuDVdfsR5wsV/EkXrl7d3hEbhi3ZveiDPvAZmRck48=";
     };
     qt-python = {
-      version = "1.14.0";
-      hash = "sha256-QBrq1kQ/kRENjSQ1HeYI1SorLQs2gIRMxexglsjwoVA=";
+      version = "1.16.0";
+      hash = "sha256-D1Vli4yQD3+WI/xG7LD7oEw/tmbgEs6q5eeymRXzRzo=";
     };
   };
 
