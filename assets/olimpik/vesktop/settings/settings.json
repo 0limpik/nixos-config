@@ -265,7 +265,7 @@
         "ImageZoom": {
             "enabled": true,
             "size": 1050,
-            "zoom": 4.943602351954398,
+            "zoom": 3,
             "saveZoomValues": true,
             "nearestNeighbour": false,
             "square": false,
@@ -659,15 +659,17 @@
         },
         "VoiceMessages": {
             "enabled": true,
-            "echoCancellation": true,
-            "noiseSuppression": true
+            "echoCancellation": false,
+            "noiseSuppression": false
         },
         "VolumeBooster": {
             "enabled": true,
             "multiplier": 2
         },
         "WebKeybinds": {
-            "enabled": true
+            "enabled": true,
+            "showNavigationButtons": true,
+            "overrideCommonKeybinds": true
         },
         "WebScreenShareFixes": {
             "enabled": true
@@ -800,7 +802,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1785502324834
+        "settingsSyncVersion": 1788044162645
     },
     "eagerPatches": false,
     "uiElements": {

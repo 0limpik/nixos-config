@@ -75,6 +75,23 @@ window-rule {
 }
 
 
+window-rule {
+    match title=r#"^Server$"#
+    open-floating true
+    border {
+        on
+    }
+    open-on-output "HDMI-A-1"
+}
+
+window-rule {
+    match title=r#"^Client Configure$"#
+    open-floating true
+    border {
+        on
+    }
+    open-on-output "HDMI-A-1"
+}
 
 window-rule {
     match title=r#"^MainWindow$"#

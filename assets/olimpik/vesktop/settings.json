@@ -11,5 +11,6 @@
     "splashPixelated": false,
     "hardwareVideoAcceleration": true,
     "tray": false,
-    "disableSmoothScroll": true
+    "disableSmoothScroll": true,
+    "hardwareAcceleration": true
 }
