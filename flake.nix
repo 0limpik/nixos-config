@@ -40,7 +40,7 @@
     };
 
     vicinae = {
-      url = "github:vicinaehq/vicinae/v0.26.3"; # auto_bump_tag
+      url = "github:vicinaehq/vicinae/v0.27.5"; # auto_bump_tag
       inputs.nixpkgs.follows = "nixpkgs-s";
     };
 

@@ -4,12 +4,12 @@
 | ------- | ------- | ----- | -------- |
 | 2026-05-30 | 1.7 | [bmx](pkgs/bmx/package.nix) | [github.com](https://github.com/ebu/bmx) |
 | 2026-08-07 | 21.0.4 | [davinci-resolve-studio](pkgs/davinci-resolve/package.nix) | [blackmagicdesign.com](https://www.blackmagicdesign.com/products/davinciresolve) |
-| 2026-03-26 | 1.11.2 | [elio](pkgs/elio-fm/package.nix) | [elio-fm.github.io](https://elio-fm.github.io) |
+| 2026-09-02 | 1.12.0 | [elio](pkgs/elio-fm/package.nix) | [elio-fm.github.io](https://elio-fm.github.io) |
 | 2026-06-21 | 0.14.15 | [material-design-icons-4.0.0](pkgs/material-design-icons/package.nix) | [developers.google.com](https://developers.google.com/fonts/docs/material_icons) |
-| 2026-07-02 | 20.2 | [shutter-encoder](pkgs/shutter-encoder/package.nix) | [shutterencoder.com](https://www.shutterencoder.com) |
+| 2026-09-02 | 20.3 | [shutter-encoder](pkgs/shutter-encoder/package.nix) | [shutterencoder.com](https://www.shutterencoder.com) |
 | 2026-04-30 | 2.7.2 | [tsmuxer](pkgs/tsmuxer/package.nix) | [github.com](https://github.com/jaminmc/tsMuxer) |
-| 2026-08-24 | 1.15.2 | [vencord](/nix/store/4yd6qkbjyxndnz4pwczb5m3i19sfyc6q-source/pkgs/by-name/ve/vencord/package.nix) | [github.com](https://github.com/Vendicated/Vencord) |
-| 2026-08-24 | 1.6.7 | [vesktop](/nix/store/4yd6qkbjyxndnz4pwczb5m3i19sfyc6q-source/pkgs/by-name/ve/vesktop/package.nix) | [github.com](https://github.com/Vencord/Vesktop) |
+| 2026-09-02 | 1.15.4 | [vencord](pkgs/vencord/package.nix)/[nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ve/vencord/package.nix#L108) | [github.com](https://github.com/Vendicated/Vencord) |
+| 2026-09-02 | 1.6.7 | [vesktop](pkgs/vesktop/package.nix)/[nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ve/vesktop/package.nix#L188) | [github.com](https://github.com/Vencord/Vesktop) |
 
 ### [vscode-extensions](pkgs/vscode-extensions/extensions.nix)
 
@@ -28,7 +28,7 @@
 | 2026-07-21 | 2026.3.1 | ms-python | vscode-pylance | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance) |
 | 2026-08-14 | 1.36.0 | ms-python | vscode-python-envs | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-python-envs) |
 | 2026-08-14 | 1.23.52 | ms-vscode | cmake-tools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) |
-| 2026-08-12 | 0.5.14 | ms-vscode | cpp-devtools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpp-devtools) |
+| 2026-09-02 | 0.6.18 | ms-vscode | cpp-devtools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpp-devtools) |
 | 2026-08-23 | 1.33.8 | ms-vscode | cpptools | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) |
 | 2026-02-20 | 1.5.1 | ms-vscode | cpptools-extension-pack | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack) |
 | 2022-10-25 | 2.0.0 | ms-vscode | cpptools-themes | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-themes) |
@@ -37,14 +37,14 @@
 | 2026-08-06 | 0.42.0 | ms-vscode | remote-repositories | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-repositories) |
 | 2026-07-29 | 1.5.3 | ms-vscode | remote-server | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-server) |
 | 2026-07-15 | 0.466.0 | ms-vscode-remote | remote-containers | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) |
-| 2026-08-13 | 0.124.0 | ms-vscode-remote | remote-ssh | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) |
+| 2026-09-02 | 0.128.0 | ms-vscode-remote | remote-ssh | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) |
 | 2024-10-02 | 0.87.0 | ms-vscode-remote | remote-ssh-edit | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-edit) |
 | 2026-08-13 | 0.29.3 | redhat | vscode-xml | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml) |
 | 2026-08-14 | 1.24.0 | redhat | vscode-yaml | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) |
-| 2026-06-24 | 1.14.0 | theqtcompany | qt-core | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-core) |
-| 2026-06-24 | 1.14.0 | theqtcompany | qt-python | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-python) |
-| 2026-06-24 | 1.14.0 | theqtcompany | qt-qml | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-qml) |
-| 2026-06-24 | 1.14.0 | theqtcompany | qt-ui | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-ui) |
+| 2026-09-02 | 1.16.0 | theqtcompany | qt-core | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-core) |
+| 2026-09-02 | 1.16.0 | theqtcompany | qt-python | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-python) |
+| 2026-09-02 | 1.16.0 | theqtcompany | qt-qml | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-qml) |
+| 2026-09-02 | 1.16.0 | theqtcompany | qt-ui | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=theqtcompany.qt-ui) |
 | 2026-05-09 | 0.39.5 | timonwong | shellcheck | [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck) |
 
 ### [davinci-resolve-encoders](pkgs/davinci-resolve/encoders/encoders.nix)

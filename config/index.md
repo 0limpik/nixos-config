@@ -32,7 +32,7 @@
 | theme.colorScheme.palette | [{ 28 }](config/olimpik/theme.nix) | [{ 28 }](config/olimpik/theme.nix) | [{ 28 }](config/olimpik/theme.nix) | [{ 28 }](config/olimpik/theme.nix) |
 | theme.cursor.enable | [✗](modules/any/theme.nix) | [✗](modules/any/theme.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | theme.cursor.name | – | – | [gradient-green](config/olimpik/home.nix) | [gradient-green](config/olimpik/home.nix) |
-| theme.cursor.path | – | – | [0443·YL0N olimpik](config/olimpik/home.nix) | [0443·YL0N olimpik](config/olimpik/home.nix) |
+| theme.cursor.path | – | – | [I24F·V0AZ olimpik](config/olimpik/home.nix) | [I24F·V0AZ olimpik](config/olimpik/home.nix) |
 | theme.enable | [✔](config/olimpik/theme.nix) | [✔](config/olimpik/theme.nix) | [✔](config/olimpik/theme.nix) | [✔](config/olimpik/theme.nix) |
 | theme.icons.enable | [✔](modules/any/theme.nix) | [✔](modules/any/theme.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | theme.icons.local | [{ 1 }](modules/any/theme.nix) | [{ 1 }](modules/any/theme.nix) | [{ 3 }](config/olimpik/home.nix) | [{ 3 }](config/olimpik/home.nix) |
@@ -40,7 +40,7 @@
 | video.export.blackmagic | [✔](config/olimpik/MS-7B85.nix) | [✗](modules/any/video.nix) | [✗](modules/any/video.nix) | [✗](modules/any/video.nix) |
 | video.export.enable | [✔](config/olimpik/MS-7B85.nix) | [✔](config/olimpik/G1619-04.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | video.import.enable | [✔](modules/any/video.nix) | [✔](modules/any/video.nix) | [✔](modules/any/video.nix) | [✔](modules/any/video.nix) |
-| web.browser | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) | [LGN3·30XH google-chrome-151.0.7922.169](modules/any/web.nix) |
+| web.browser | [Y6Z5·8N8I google-chrome-152.0.7977.64](modules/any/web.nix) | [Y6Z5·8N8I google-chrome-152.0.7977.64](modules/any/web.nix) | [Y6Z5·8N8I google-chrome-152.0.7977.64](modules/any/web.nix) | [Y6Z5·8N8I google-chrome-152.0.7977.64](modules/any/web.nix) |
 | web.enable | [✔](modules/any/web.nix) | [✔](modules/any/web.nix) | [✔](config/olimpik/home.nix) | [✔](config/olimpik/home.nix) |
 | wifi-interface | [wlo1](config/MS-7B85) | [wlp1s0](config/G1619-04) | – | – |
 | windows.enable | [✔](config/olimpik/MS-7B85.nix) | [✔](config/olimpik/G1619-04.nix) | [✗](modules/any/windows.nix) | [✗](modules/any/windows.nix) |

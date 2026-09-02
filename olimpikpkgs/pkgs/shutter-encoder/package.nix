@@ -25,11 +25,12 @@
   realesrgan-ncnn-vulkan,
 }:
 let
+  version = "20.3";
   src = fetchFromGitHub {
     owner = "paulpacifico";
     repo = "shutter-encoder";
-    tag = "20.2";
-    hash = "sha256-Z57S4UYwK254z+idnNKGxvJATl+hi1v73fOVFpS0CAM=";
+    rev = version;
+    hash = "sha256-pt/qosD5NARcCGWZJwnIH7q0o/7ME+sEnj9Ug6/H/lY=";
   };
   jre =
     (jre25_minimal.override {
@@ -55,8 +56,7 @@ let
       });
   shutter-encoder = stdenvNoCC.mkDerivation rec {
     pname = "shutter-encoder-unwrapped";
-    version = src.tag;
-    inherit src;
+    inherit src version;
     nativeBuildInputs = [
       jdk25
       stripJavaArchivesHook
@@ -82,10 +82,19 @@ let
       substituteInPlace "./src/shutterencoder/library/PDF.java" \
         --replace-fail 'VideoPlayer' 'VideoPlayerUI' \
         --replace-fail \
-        'import shutterencoder.ui.videoplayer.VideoPlayerUI;' \
-        'import shutterencoder.ui.videoplayer.VideoPlayerUI; import shutterencoder.ui.videoplayer.VideoPlayerCore;' \
+          'import shutterencoder.ui.videoplayer.VideoPlayerUI;' \
+          '
+          import shutterencoder.ui.videoplayer.VideoPlayerUI;
+          import shutterencoder.ui.videoplayer.VideoPlayerCore;
+          import shutterencoder.ui.videoplayer.VideoPlayerUtils;
+          ' \
         --replace-fail 'VideoPlayerUI.preview' 'VideoPlayerCore.preview' \
-        --replace-fail 'VideoPlayerUI.videoPath' 'VideoPlayerCore.videoPath'
+        --replace-fail 'VideoPlayerUI.videoPath' 'VideoPlayerCore.videoPath' \
+        --replace-fail \
+          'VideoPlayerCore.preview = converted;' \
+          'VideoPlayerCore.preview = ((java.awt.image.DataBufferByte) converted.getRaster().getDataBuffer()).getData();' \
+        --replace-fail 'VideoPlayerUI.setInfo();' 'VideoPlayerUtils.setInfo();'
+
       substituteInPlace "./src/shutterencoder/ui/main/Shutter.java" \
         --replace-fail \
           'public static File documents = new File(System.getProperty("user.home") + "/Shutter Encoder");' \
@@ -98,6 +107,7 @@ let
               : System.getProperty("user.home") + "/Shutter Encoder"
           );
           '
+
       substituteInPlace "./src/shutterencoder/utils/Utils.java" \
         --replace-fail \
         'new ProcessBuilder(launcher).start();' \
