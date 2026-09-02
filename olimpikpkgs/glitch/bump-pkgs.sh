@@ -25,7 +25,7 @@ nix_update() {
         lib.escapeShellArgs (pkgs.lib.toList (pkg.updateScript.command or pkg.updateScript or \"\"))
       ))
     " >/dev/null 2>&1 || return
-  nix store add-path --name olimpikpkgs ./ >/dev/null 2>&1 || return
+  nix store add-path --name olimpikpkgs ./ >/dev/null 2>&1
   rm --force "result"
   flake_path="$(nix store add-path --name olimpikpkgs ./)" || return
   nix build \
@@ -44,7 +44,7 @@ nix_update() {
         ];
       }
     " >/dev/null 2>&1 || return
-  nix store add-path --name olimpikpkgs ./ >/dev/null 2>&1 || return
+  nix store add-path --name olimpikpkgs ./ >/dev/null 2>&1
   rm --force "result"
 
   nix-update \
@@ -106,8 +106,12 @@ bump() {
     local known=0
     for key in "${!scopes[@]}"; do
       user_key="${1//-/_}"
-      if [[ $user_key == "${key%:*}" ]]; then
+      if [[ ${user_key%:*} == "${key%:*}" ]]; then
         scopes[$key]=1
+        if [[ $user_key == *:* && ${user_key#*:} != "${key#*:}" ]]; then
+          unset "scopes[$key]"
+          scopes[$user_key]=1
+        fi
         shift 1
         known=1
       fi
