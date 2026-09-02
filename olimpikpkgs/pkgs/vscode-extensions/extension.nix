@@ -85,7 +85,8 @@ stdenvNoCC.mkDerivation {
           --publisher "$publisher" \
           --name "$name" \
           --version "$UPDATE_NIX_OLD_VERSION" \
-          --location "${location}"
+          --location "${location}" \
+          --user-agent "curl/${curl.version} Nixpkgs/${lib.version}"
       '';
     });
   };
