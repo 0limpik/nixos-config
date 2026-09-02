@@ -38,12 +38,24 @@ generate_packages() {
   for key in "${packages[@]}"; do
     local user_key="${key//_/-}"
     local name="${user_key%:*}"
-    local updated="" pname="" loc="" version="" homepage="" url="" json=""
+    local updated="" pname="" position="" maintainersPosition="" loc="" scope="" scopeLoc="" version="" homepage="" url="" json=""
     json="$(nix eval --json "$flake#$key" --apply 'x: { inherit (x) pname version meta; }')" || return
     pname="$(jq --raw-output '.pname' <<<"$json")" || return
     version="$(jq --raw-output '.version' <<<"$json")" || return
-    loc="$(jq --raw-output '.meta.position' <<<"$json")" || return
-    loc="${loc%:*}"
+    position="$(jq --raw-output '.meta.position' <<<"$json")" || return
+    maintainersPosition="$(jq --raw-output '.meta.maintainersPosition.file' <<<"$json")" || return
+    if [[ $maintainersPosition != "${position%:*}" ]]; then
+      scope="nixpkgs"
+      local scopePath="" scopeLine=""
+      scopePath="${position#/nix/store/*/}"
+      scopePath="${scopePath%:*}"
+      scopeLine="${position#*:}"
+      scopeLoc="https://github.com/NixOS/nixpkgs/blob/master/$scopePath#L$scopeLine"
+      loc="$maintainersPosition"
+    else
+      position="${position%:*}"
+      loc="$position"
+    fi
     loc="${loc##*/olimpikpkgs/}"
     url="$(jq --raw-output '.meta.homepage' <<<"$json")" || return
     homepage="${url##https://}"
@@ -55,8 +67,15 @@ generate_packages() {
     package="$(grep --extended-regexp '\|[^\|]*\|[^\|]*\| \[[^]]*\]\('"$package_r"'\) \|' <<<"$index")"
     updated="$(get_updated "$package" "$version")" || return
 
+    local name=""
+    if [[ -n $scope && -n $scopeLoc ]]; then
+      name="[$pname]($loc)/[$scope]($scopeLoc)"
+    else
+      name="[$pname]($loc)"
+    fi
+
     printf '%s\n' \
-      "| $updated | $version | [$pname]($loc) | [$homepage]($url) |" \
+      "| $updated | $version | $name | [$homepage]($url) |" \
       >>"$location"
   done
 }
