@@ -161,6 +161,7 @@
             ax3_2 = mkProfile "AX3_2";
             ax3_5 = mkProfile "AX3_5";
             ax1500_5 = mkProfile "AX1500_5";
+            a2_2 = mkProfile "A2_2";
           };
       };
     };
