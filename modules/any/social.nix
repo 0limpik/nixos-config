@@ -7,6 +7,7 @@
 
   inputs,
   pkgs-s,
+  pkgs-u,
   pkgs-o,
   ...
 }:
@@ -39,6 +40,10 @@ in
         environment.systemPackages = [
           ayugram-desktop
           pkgs-o.vesktop
+          pkgs-u.arrpc
+        ];
+        systemd.packages = [
+          pkgs-u.arrpc
         ];
       };
       hm = {
@@ -54,6 +59,11 @@ in
               lib-o.mkSymlink config "vesktop/settings/settings.json";
             ".config/vesktop/settings.json".source = lib-o.mkSymlink config "vesktop/settings.json";
           };
+        };
+        services.arrpc = {
+          enable = true;
+          package = pkgs-u.arrpc;
+          systemdTarget = "graphical-session.target";
         };
         my.wm.niri =
           let
