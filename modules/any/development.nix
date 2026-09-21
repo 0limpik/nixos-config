@@ -123,11 +123,20 @@ in
             };
             xdg.mimeApps = {
               enable = true;
-              defaultApplications = {
-                "text/x-nix" = [ "code.desktop" ];
-                "text/plain" = [ "code.desktop" ];
-                "application/x-extension-txt" = [ "code.desktop" ];
-              };
+              defaultApplications =
+                let
+                  browser = "google-chrome.desktop";
+                in
+                {
+                  "text/html" = [ browser ];
+                  "x-scheme-handler/http" =[ browser ];
+                  "x-scheme-handler/https" = [ browser ];
+                  "x-scheme-handler/about" = [ browser ];
+                  "x-scheme-handler/unknown" = [ browser ];
+                  "text/x-nix" = [ "code.desktop" ];
+                  "text/plain" = [ "code.desktop" ];
+                  "application/x-extension-txt" = [ "code.desktop" ];
+                };
             };
           };
         }
