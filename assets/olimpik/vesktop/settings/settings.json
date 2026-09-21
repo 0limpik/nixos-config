@@ -87,7 +87,7 @@
             "enabled": false
         },
         "WebRichPresence (arRPC)": {
-            "enabled": false
+            "enabled": true
         },
         "BANger": {
             "enabled": false
@@ -332,7 +332,8 @@
             "ignoreGuilds": "",
             "logEdits": true,
             "logDeletes": true,
-            "inlineEdits": true
+            "inlineEdits": true,
+            "logDeletedAttachments": true
         },
         "MoreCommands": {
             "enabled": false
@@ -802,7 +803,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1788044162645
+        "settingsSyncVersion": 1789930916528
     },
     "eagerPatches": false,
     "uiElements": {
