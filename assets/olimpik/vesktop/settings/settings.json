@@ -87,7 +87,7 @@
             "enabled": false
         },
         "WebRichPresence (arRPC)": {
-            "enabled": true
+            "enabled": false
         },
         "BANger": {
             "enabled": false
@@ -454,7 +454,7 @@
             "enabled": false
         },
         "PlatformIndicators": {
-            "enabled": true,
+            "enabled": false,
             "colorMobileIndicator": true,
             "list": true,
             "badges": true,
@@ -540,7 +540,7 @@
             "defaultAllowedUsersAndRolesDropdownState": true
         },
         "ShowHiddenThings": {
-            "enabled": false
+            "enabled": true
         },
         "ShowMeYourName": {
             "enabled": false
@@ -550,7 +550,9 @@
             "displayStyle": "tooltip"
         },
         "SilentMessageToggle": {
-            "enabled": false
+            "enabled": true,
+            "persistState": false,
+            "autoDisable": false
         },
         "SilentTyping": {
             "enabled": true,
@@ -559,7 +561,7 @@
             "contextMenu": true
         },
         "SortFriendRequests": {
-            "enabled": false
+            "enabled": true
         },
         "SpotifyControls": {
             "enabled": true,
@@ -803,7 +805,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1789930916528
+        "settingsSyncVersion": 1790452268769
     },
     "eagerPatches": false,
     "uiElements": {
