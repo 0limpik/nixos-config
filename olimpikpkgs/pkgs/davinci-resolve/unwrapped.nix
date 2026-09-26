@@ -41,9 +41,9 @@ stdenvNoCC.mkDerivation rec {
   APPIMAGE_NAME = "DaVinci_Resolve_Studio_${version}_Linux.run";
 
   unpackPhase = ''
-    unzip -q "$src" -d "./"
+    unzip -q "$src"
+    test -f "$APPIMAGE_NAME"
     mkdir --parents "$out"
-    test -n "$APPIMAGE_NAME"
     appimage-exec.sh -x "$out" "$APPIMAGE_NAME"
   '';
 
@@ -59,6 +59,7 @@ stdenvNoCC.mkDerivation rec {
     "Extras"
     "Fairlight"
     "GPUCache"
+    "Immersive/Canon/STMap"
     "IOPlugins"
     "lib"
     "logs"
