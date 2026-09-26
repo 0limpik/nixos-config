@@ -20,7 +20,7 @@ stdenvNoCC.mkDerivation rec {
   src = callPackage ./fetcher.nix {
     platform = stdenvNoCC.hostPlatform.uname.system;
     product = "davinci-resolve-studio";
-    version = "21.1.0";
+    version = "21.1";
     hash = "sha256-P+zu8/OuFcDcIkwV3UMq0qg9U2JEGRkKDP+VLQesZjw=";
   };
 
