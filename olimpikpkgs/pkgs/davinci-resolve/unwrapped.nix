@@ -103,7 +103,6 @@ stdenvNoCC.mkDerivation rec {
         addDriverRunpath "$program"
       fi
     done
-    ln --symbolic "$out/libs/libcrypto.so.1.1" "$out/libs/libcrypt.so.1"
   '';
 
   desktopItems = [
