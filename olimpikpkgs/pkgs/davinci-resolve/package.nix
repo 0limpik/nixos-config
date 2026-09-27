@@ -35,7 +35,7 @@ let
         librsvg
         libtool
         libuuid
-        libxcrypt # provides libcrypt.so.1
+        libxcrypt-legacy # provides libcrypt.so.1
         libxkbcommon
         nspr
         ocl-icd

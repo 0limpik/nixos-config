@@ -20,8 +20,8 @@ stdenvNoCC.mkDerivation rec {
   src = callPackage ./fetcher.nix {
     platform = stdenvNoCC.hostPlatform.uname.system;
     product = "davinci-resolve-studio";
-    version = "21.0.4";
-    hash = "sha256-FwaSnK3DAIRGCz6kiWxE4o0Cd0en2qoyuWCDHat1xHQ=";
+    version = "21.1";
+    hash = "sha256-P+zu8/OuFcDcIkwV3UMq0qg9U2JEGRkKDP+VLQesZjw=";
   };
 
   nativeBuildInputs = [
@@ -41,9 +41,9 @@ stdenvNoCC.mkDerivation rec {
   APPIMAGE_NAME = "DaVinci_Resolve_Studio_${version}_Linux.run";
 
   unpackPhase = ''
-    unzip -q "$src" -d "./"
+    unzip -q "$src"
+    test -f "$APPIMAGE_NAME"
     mkdir --parents "$out"
-    test -n "$APPIMAGE_NAME"
     appimage-exec.sh -x "$out" "$APPIMAGE_NAME"
   '';
 
@@ -59,6 +59,7 @@ stdenvNoCC.mkDerivation rec {
     "Extras"
     "Fairlight"
     "GPUCache"
+    "Immersive/Canon/STMap"
     "IOPlugins"
     "lib"
     "logs"
@@ -102,7 +103,6 @@ stdenvNoCC.mkDerivation rec {
         addDriverRunpath "$program"
       fi
     done
-    ln --symbolic "$out/libs/libcrypto.so.1.1" "$out/libs/libcrypt.so.1"
   '';
 
   desktopItems = [

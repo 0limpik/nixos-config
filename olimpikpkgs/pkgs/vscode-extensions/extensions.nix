@@ -1,8 +1,8 @@
 {
   ms-vscode = {
     cpptools = {
-      version = "1.33.8";
-      hash = "sha256-Bcz66Y75qCYgDsevmN0HTxMHt4qbt7L8M1clzi/WrcI=";
+      version = "1.34.4";
+      hash = "sha256-Toqa3XikoAGGgJ74voTJxSkG4bSilNwOgl1RQX3il5o=";
     };
     cpp-devtools = {
       version = "0.6.18";
@@ -17,8 +17,8 @@
       hash = "sha256-gq/EeCVar5SWcO5AjBgpBV8nTtk4k5lnpzEYRl6Lx0I=";
     };
     cmake-tools = {
-      version = "1.23.52";
-      hash = "sha256-1xtsTfWlTYAncjTRF8Bal/lAOFGpBym5MoVIaSl/viY=";
+      version = "1.24.42";
+      hash = "sha256-KnA/Q68rYrEshTlPQibzLP1WI5AyH7uTxggRtIjiksA=";
     };
     remote-explorer = {
       version = "0.5.0";
@@ -47,8 +47,8 @@
       hash = "sha256-LUDO/9DucXXGOiRxdEXqWAIJyL7tiS7byD0OyxYTUiA=";
     };
     remote-containers = {
-      version = "0.466.0";
-      hash = "sha256-9569NONF1furIQt64JpzgLrftz1O3aJ2up3bxMenWco=";
+      version = "0.469.0";
+      hash = "sha256-Nk5qZ3jAr9UkcU8ef8bZ4/C0bF20QlvJJoBO8illsZo=";
     };
   };
   ms-python = {
@@ -57,16 +57,16 @@
       hash = "sha256-DgrBSdp7MnIzaamo7OP77ClUS1UVI1luF4j/p/ZZnE4=";
     };
     vscode-pylance = {
-      version = "2026.3.1";
-      hash = "sha256-X7TYeb4QkvogfgnZ3WMSR3gPJL8ce3tyJnM7ahPkLiA=";
+      version = "2026.4.1";
+      hash = "sha256-jQQe4G/BtP3zsBLg4oUbEPUa6cTyHo4iZP0VUEF4am8=";
     };
     debugpy = {
       version = "2026.6.0";
       hash = "sha256-WnUe72FRBziopc8sQan025VMsXR5f3Ji0E78nhdyjAk=";
     };
     vscode-python-envs = {
-      version = "1.36.0";
-      hash = "sha256-Ctp0c7IcOnDvzdG5OXuGCRcRETYjkNhXH+r+Us/D0LY=";
+      version = "1.38.0";
+      hash = "sha256-f7F8EC7ifX10FLuF/yNtnA5ri9lqV+KMo892Ei+JTUU=";
     };
   };
 
@@ -136,7 +136,7 @@
     hash = "sha256-eVDtQ+HW8SNuaf6jXLD7nKyUzhlpL5zeZ2ZrjlW70D0=";
   };
   timonwong.shellcheck = {
-    version = "0.39.5";
-    hash = "sha256-g521QSrrUXT5k0cHMd2DcYQ5hjhfvZE++RGxPtYn8R8=";
+    version = "0.40.1";
+    hash = "sha256-nHOprhi420UhjxMVUu3DNjH5pl12ttAasfaLmK8mo6c=";
   };
 }

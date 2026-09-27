@@ -16,10 +16,10 @@ let
 in
 vencord.overrideAttrs (
   finalAttrs: attrs: rec {
-    version = "1.15.4";
+    version = "1.15.8";
 
     src = attrs.src.override {
-      hash = "sha256-GSCTNw4J6tiQ5rB6QURi0FLKzCkmzCJfPWEeGy1yfxQ=";
+      hash = "sha256-nN2NJbB5UHj3zmUVV8mTON78ba4v9LBxrxD4uwXN8vE=";
     };
 
     pnpmDeps = fetchPnpmDeps {
@@ -31,7 +31,7 @@ vencord.overrideAttrs (
         ;
       pnpm = pnpm_11;
       fetcherVersion = 4;
-      hash = "sha256-Zn6No8EyGHUR36Av1VxGWD19tUMBxSUo3QPCPXzlx0U=";
+      hash = "sha256-LiAcWwGmZlpO+rr0tcMNpViBiBRhSHj+wvyHFIe32lw=";
     };
 
     postPatch = (attrs.postPatch or "") + ''
