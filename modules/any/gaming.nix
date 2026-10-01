@@ -58,6 +58,7 @@ in
           };
           environment.systemPackages = [
             pkgs-s.bubblewrap
+            pkgs-u.protontricks
           ];
         };
       })
