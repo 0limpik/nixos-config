@@ -74,6 +74,7 @@ in
           };
           services.wivrn = {
             enable = true;
+            package = pkgs-u.wivrn;
             autoStart = true;
             highPriority = true;
             steam = {
