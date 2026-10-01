@@ -540,7 +540,10 @@
             "defaultAllowedUsersAndRolesDropdownState": true
         },
         "ShowHiddenThings": {
-            "enabled": true
+            "enabled": true,
+            "showTimeouts": true,
+            "showInvitesPaused": true,
+            "showModView": true
         },
         "ShowMeYourName": {
             "enabled": false
@@ -561,7 +564,8 @@
             "contextMenu": true
         },
         "SortFriendRequests": {
-            "enabled": true
+            "enabled": true,
+            "showDates": false
         },
         "SpotifyControls": {
             "enabled": true,
@@ -678,7 +682,8 @@
             "enabled": true
         },
         "WhoReacted": {
-            "enabled": true
+            "enabled": true,
+            "clickableAvatars": true
         },
         "XSOverlay": {
             "enabled": false
@@ -793,6 +798,9 @@
         },
         "TenorGifSearch": {
             "enabled": false
+        },
+        "AddAttachments": {
+            "enabled": false
         }
     },
     "notifications": {
@@ -805,7 +813,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1790452268769
+        "settingsSyncVersion": 1790711445070
     },
     "eagerPatches": false,
     "uiElements": {
