@@ -169,19 +169,23 @@ in
                         | .colors.bright.magenta = "${colorScheme.palette.light-mauve}"
                       ' "$out/catppuccin-${colorScheme.flavor}.toml"
                   '';
-              vscode = prev.vscode.overrideAttrs (attrs: {
-                nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ ([
-                  pkgs-s.jq
-                ]);
-                postInstall = ''
-                  theme_path="$out/share/vscode/extensions/catppuccin.vscode/themes/mocha.json"
-                  temp_theme_path="$(mktemp)"
-                  jq --raw-output '
-                    .colors["terminal.ansiMagenta"] = "${colorScheme.palette.mauve}"
-                    | .colors["terminal.ansiBrightMagenta"] = "${colorScheme.palette.light-mauve}"
-                  ' "$theme_path" > "$temp_theme_path" && mv "$temp_theme_path" "$theme_path"
-                '';
-              });
+              vscode =
+                (prev.vscode.override {
+                  pnpm_10 = pkgs-s.pnpm_11;
+                }).overrideAttrs
+                  (attrs: {
+                    nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ ([
+                      pkgs-s.jq
+                    ]);
+                    postInstall = ''
+                      theme_path="$out/share/vscode/extensions/catppuccin.vscode/themes/mocha.json"
+                      temp_theme_path="$(mktemp)"
+                      jq --raw-output '
+                        .colors["terminal.ansiMagenta"] = "${colorScheme.palette.mauve}"
+                        | .colors["terminal.ansiBrightMagenta"] = "${colorScheme.palette.light-mauve}"
+                      ' "$theme_path" > "$temp_theme_path" && mv "$temp_theme_path" "$theme_path"
+                    '';
+                  });
             }
           );
           my.wm.niri.themes =
