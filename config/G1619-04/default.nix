@@ -36,8 +36,8 @@
   hardware = {
     graphics = {
       enable = true;
-      package = pkgs-u.mesa;
-      extraPackages = with pkgs-u; [
+      package = pkgs-s.mesa;
+      extraPackages = with pkgs-s; [
         rocmPackages.clr.icd
         rocmPackages.clr
         amf
