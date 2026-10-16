@@ -188,7 +188,7 @@
             "enabled": true
         },
         "Experiments": {
-            "enabled": false
+            "enabled": true
         },
         "F8Break": {
             "enabled": false
@@ -265,7 +265,7 @@
         "ImageZoom": {
             "enabled": true,
             "size": 1050,
-            "zoom": 3,
+            "zoom": 2.8,
             "saveZoomValues": true,
             "nearestNeighbour": false,
             "square": false,
@@ -822,7 +822,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1790711445070
+        "settingsSyncVersion": 1791908776910
     },
     "eagerPatches": false,
     "uiElements": {

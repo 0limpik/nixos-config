@@ -29,6 +29,12 @@
    "telemetry": {
       "system_info": false
    },
+   "launcher_window": {
+      "compact_mode": {
+         "enabled": false
+      },
+      "material": "none"
+   },
    "providers": {
       "applications": {
          "preferences": {
@@ -63,6 +69,15 @@
             "encryption": false,
             "eraseOnStartup": true,
             "ignorePasswords": true
+         }
+      },
+      "snippets": {
+         "preferences": {
+            "enabled": true,
+            "keyDelay": "2",
+            "layout": "",
+            "prePasteDelay": "0",
+            "undo": true
          }
       }
    }

@@ -12,5 +12,6 @@
     "hardwareVideoAcceleration": true,
     "tray": false,
     "disableSmoothScroll": true,
-    "hardwareAcceleration": true
+    "hardwareAcceleration": true,
+    "disableMinSize": true
 }
