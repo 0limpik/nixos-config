@@ -79,22 +79,6 @@ let
     ];
 
     patchPhase = ''
-      substituteInPlace "./src/shutterencoder/library/PDF.java" \
-        --replace-fail 'VideoPlayer' 'VideoPlayerUI' \
-        --replace-fail \
-          'import shutterencoder.ui.videoplayer.VideoPlayerUI;' \
-          '
-          import shutterencoder.ui.videoplayer.VideoPlayerUI;
-          import shutterencoder.ui.videoplayer.VideoPlayerCore;
-          import shutterencoder.ui.videoplayer.VideoPlayerUtils;
-          ' \
-        --replace-fail 'VideoPlayerUI.preview' 'VideoPlayerCore.preview' \
-        --replace-fail 'VideoPlayerUI.videoPath' 'VideoPlayerCore.videoPath' \
-        --replace-fail \
-          'VideoPlayerCore.preview = converted;' \
-          'VideoPlayerCore.preview = ((java.awt.image.DataBufferByte) converted.getRaster().getDataBuffer()).getData();' \
-        --replace-fail 'VideoPlayerUI.setInfo();' 'VideoPlayerUtils.setInfo();'
-
       substituteInPlace "./src/shutterencoder/ui/main/Shutter.java" \
         --replace-fail \
           'public static File documents = new File(System.getProperty("user.home") + "/Shutter Encoder");' \
