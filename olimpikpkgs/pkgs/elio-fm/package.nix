@@ -17,10 +17,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
   cargoHash = "sha256-6hiXp3LvKToifGkYN22H/GRSClNQ6a64cEWjqPKMhfw=";
 
   postPatch = ''
-    substituteInPlace "./src/app/overlays/inline_image/protocol.rs" \
+    substituteInPlace "./src/terminal_images/protocol.rs" \
       --replace-fail \
-        'TerminalIdentity::Alacritty | TerminalIdentity::Other => ImageProtocol::None,' \
-        'TerminalIdentity::Alacritty => ImageProtocol::Sixel,TerminalIdentity::Other => ImageProtocol::None,'
+        'TerminalIdentity::Foot | TerminalIdentity::WindowsTerminal => ImageProtocol::Sixel,' \
+        'TerminalIdentity::Foot | TerminalIdentity::WindowsTerminal | TerminalIdentity::Alacritty => ImageProtocol::Sixel,'
   '';
 
   doCheck = false;
