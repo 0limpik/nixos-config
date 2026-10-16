@@ -25,12 +25,12 @@
   realesrgan-ncnn-vulkan,
 }:
 let
-  version = "20.3";
+  version = "20.4";
   src = fetchFromGitHub {
     owner = "paulpacifico";
     repo = "shutter-encoder";
     rev = version;
-    hash = "sha256-pt/qosD5NARcCGWZJwnIH7q0o/7ME+sEnj9Ug6/H/lY=";
+    hash = "sha256-csdZPHh8mBMTFusEFcSoEV7wvgV4iaPycoCotHi99qU=";
   };
   jre =
     (jre25_minimal.override {

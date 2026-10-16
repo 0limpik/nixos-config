@@ -25,8 +25,8 @@
       hash = "sha256-2rdso1nd1BWHvLoee3GuqJE7xPQMt/XAYc1TNxiXfeQ=";
     };
     remote-server = {
-      version = "1.5.3";
-      hash = "sha256-vj+hBsKgC+JvPCB20WVQ8R7Jrn3/NTV55jj/3XLvkQY=";
+      version = "1.5.4";
+      hash = "sha256-3l1F9gQWTmPGdXlqR/un/Zn0ruoa9hZDMHA+Pg0R7+I=";
     };
     remote-repositories = {
       version = "0.42.0";
@@ -53,8 +53,8 @@
   };
   ms-python = {
     python = {
-      version = "2026.4.0";
-      hash = "sha256-DgrBSdp7MnIzaamo7OP77ClUS1UVI1luF4j/p/ZZnE4=";
+      version = "2026.10.0";
+      hash = "sha256-Xs9WrLI3wG3FgjQO2CSPJBrKLZrbZImA9AL+1ElGZbc=";
     };
     vscode-pylance = {
       version = "2026.4.1";
@@ -65,8 +65,8 @@
       hash = "sha256-WnUe72FRBziopc8sQan025VMsXR5f3Ji0E78nhdyjAk=";
     };
     vscode-python-envs = {
-      version = "1.38.0";
-      hash = "sha256-f7F8EC7ifX10FLuF/yNtnA5ri9lqV+KMo892Ei+JTUU=";
+      version = "1.40.0";
+      hash = "sha256-zzIZy05x61uG+UFi89xUlK7JpgSQXL+V9WU6mnHfpWg=";
     };
   };
 
@@ -106,8 +106,8 @@
       hash = "sha256-rC2CX2LzFgNgn6bhyb0Ag2AJu3w15WzjJzJsxDXQOZQ=";
     };
     vscode-yaml = {
-      version = "1.24.0";
-      hash = "sha256-uyQVGxEEy8Ka2d8w1mi8Pj0jfTVpd9WMT+gAXSZywos=";
+      version = "2.0.0";
+      hash = "sha256-FOYEkj04myKozvvNVxyCCmw9tyLkTrlEvU5MR6GiIGY=";
     };
   };
 
@@ -136,7 +136,7 @@
     hash = "sha256-eVDtQ+HW8SNuaf6jXLD7nKyUzhlpL5zeZ2ZrjlW70D0=";
   };
   timonwong.shellcheck = {
-    version = "0.40.1";
-    hash = "sha256-nHOprhi420UhjxMVUu3DNjH5pl12ttAasfaLmK8mo6c=";
+    version = "0.48.1";
+    hash = "sha256-KCuIT1QzgysIGyetG2O5vhaXQgHidnyeB+Cm8RoR/nU=";
   };
 }
