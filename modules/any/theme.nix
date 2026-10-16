@@ -177,7 +177,18 @@ in
                     nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ ([
                       pkgs-s.jq
                     ]);
-                    postInstall = ''
+                    pnpmDeps = pkgs-s.fetchPnpmDeps {
+                      inherit (attrs)
+                        pname
+                        version
+                        src
+                        pnpmWorkspaces
+                        ;
+                      pnpm = pkgs-s.pnpm_11;
+                      fetcherVersion = 4;
+                      hash = "sha256-a1er5btH6aYRnKgpyW1UU8fgsuZZO72+/JkYSMaYKSg=";
+                    };
+                    postInstall = (attrs.postInstall or "") + ''
                       theme_path="$out/share/vscode/extensions/catppuccin.vscode/themes/mocha.json"
                       temp_theme_path="$(mktemp)"
                       jq --raw-output '
