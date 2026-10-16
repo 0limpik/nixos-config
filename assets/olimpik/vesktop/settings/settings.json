@@ -801,6 +801,15 @@
         },
         "AddAttachments": {
             "enabled": false
+        },
+        "CustomStreamTopQ": {
+            "enabled": true,
+            "replaceEnabled": false,
+            "slideshowEnabled": false,
+            "slideshowRandom": false,
+            "showInfoBadges": true,
+            "showPanelButton": true,
+            "hotkey": "Alt+1"
         }
     },
     "notifications": {
