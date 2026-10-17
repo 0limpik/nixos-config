@@ -37,7 +37,7 @@
             "enabled": true
         },
         "MessagePopoverAPI": {
-            "enabled": false
+            "enabled": true
         },
         "NoticesAPI": {
             "enabled": true
@@ -796,9 +796,6 @@
         "MusicRichPresence": {
             "enabled": false
         },
-        "TenorGifSearch": {
-            "enabled": false
-        },
         "AddAttachments": {
             "enabled": false
         },
@@ -810,6 +807,9 @@
             "showInfoBadges": true,
             "showPanelButton": true,
             "hotkey": "Alt+1"
+        },
+        "GifProviderSwitcher": {
+            "enabled": false
         }
     },
     "notifications": {
@@ -822,12 +822,13 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1791908776910
+        "settingsSyncVersion": 1792170016357
     },
     "eagerPatches": false,
     "uiElements": {
         "chatBarButtons": {},
         "messagePopoverButtons": {}
     },
-    "windowsMaterial": "none"
+    "windowsMaterial": "none",
+    "nativeTitleBar": false
 }
