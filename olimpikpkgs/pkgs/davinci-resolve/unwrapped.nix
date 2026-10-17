@@ -20,8 +20,8 @@ stdenvNoCC.mkDerivation rec {
   src = callPackage ./fetcher.nix {
     platform = stdenvNoCC.hostPlatform.uname.system;
     product = "davinci-resolve-studio";
-    version = "21.1";
-    hash = "sha256-P+zu8/OuFcDcIkwV3UMq0qg9U2JEGRkKDP+VLQesZjw=";
+    version = "21.1.1";
+    hash = "sha256-rURkNmPzRjeD2aadEpZE9h/uQfsmVm43sJTJVODqP30=";
   };
 
   nativeBuildInputs = [

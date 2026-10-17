@@ -40,7 +40,7 @@
     };
 
     vicinae = {
-      url = "github:vicinaehq/vicinae/v0.29.0"; # auto_bump_tag
+      url = "github:vicinaehq/vicinae/v0.29.1"; # auto_bump_tag
       inputs.nixpkgs.follows = "nixpkgs-s";
     };
 
@@ -77,24 +77,26 @@
       ...
     }:
     let
-      args = {
+      nixpkgsBaseArgs = {
         system = "x86_64-linux";
       };
-      pkgs-u = import ./olimpikpkgs/config/nixpkgs-u.nix args nixpkgs-u;
-      args.nix-update-script = pkgs-u.nix-update-script;
-      pkgs-s = import ./olimpikpkgs/config/nixpkgs-s.nix args nixpkgs-s;
-      pkgs-m = import ./olimpikpkgs/config/nixpkgs-m.nix args nixpkgs-m;
-      pkgs-o = olimpikpkgs.packages."${args.system}";
+      nixpkgsArgs = nixpkgsBaseArgs // {
+        nix-update-script = pkgs-u.nix-update-script;
+      };
+      pkgs-s = import ./olimpikpkgs/config/nixpkgs-s.nix nixpkgsArgs nixpkgs-s;
+      pkgs-u = import ./olimpikpkgs/config/nixpkgs-u.nix nixpkgsBaseArgs nixpkgs-u;
+      pkgs-m = import ./olimpikpkgs/config/nixpkgs-m.nix nixpkgsArgs nixpkgs-m;
+      pkgs-o = olimpikpkgs.packages."${nixpkgsBaseArgs.system}";
       lib-o =
         source:
-        olimpikpkgs.lib."${args.system}" {
+        olimpikpkgs.lib."${nixpkgsBaseArgs.system}" {
           inherit source;
           path = ./.;
           inherit (pkgs-s) lib;
         };
 
       baseArgs = {
-        inherit (args) system;
+        inherit (nixpkgsBaseArgs) system;
         inherit
           inputs
           pkgs-s
@@ -104,7 +106,7 @@
           ;
       };
       systemArgs = {
-        inherit (args) system;
+        inherit (nixpkgsBaseArgs) system;
         pkgs = pkgs-s;
         specialArgs = baseArgs // {
           lib-o = lib-o "system";

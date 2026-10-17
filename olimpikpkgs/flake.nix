@@ -20,17 +20,19 @@
       ...
     }:
     let
-      args = {
+      nixpkgsBaseArgs = {
         system = "x86_64-linux";
       };
-      pkgs-u = import ./config/nixpkgs-u.nix args nixpkgs-u;
-      args.nix-update-script = pkgs-u.nix-update-script;
-      pkgs-s = import ./config/nixpkgs-s.nix args nixpkgs-s;
-      pkgs-m = import ./config/nixpkgs-m.nix args nixpkgs-m;
+      nixpkgsArgs = nixpkgsBaseArgs // {
+        nix-update-script = pkgs-u.nix-update-script;
+      };
+      pkgs-s = import ./config/nixpkgs-s.nix nixpkgsArgs nixpkgs-s;
+      pkgs-u = import ./config/nixpkgs-u.nix nixpkgsBaseArgs nixpkgs-u;
+      pkgs-m = import ./config/nixpkgs-m.nix nixpkgsArgs nixpkgs-m;
     in
     rec {
-      lib."${args.system}" = import ./lib/default.nix;
-      packages."${args.system}" = import ./pkgs/all-packages.nix {
+      lib."${nixpkgsBaseArgs.system}" = import ./lib/default.nix;
+      packages."${nixpkgsBaseArgs.system}" = import ./pkgs/all-packages.nix {
         inherit (pkgs-s) lib newScope;
         inherit
           pkgs-s
@@ -43,7 +45,7 @@
       homeManagerModules = import ./modules/module-list.nix;
       maintained = import ./lib/maintained.nix {
         lib = pkgs-s.lib;
-        pkgs = packages."${args.system}";
+        pkgs = packages."${nixpkgsBaseArgs.system}";
       };
     };
 }

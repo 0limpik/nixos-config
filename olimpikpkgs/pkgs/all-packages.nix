@@ -24,7 +24,7 @@ builtins.removeAttrs
         path = ./davinci-resolve/package.nix;
       };
       davinci-resolve-encoders = callPackage ./davinci-resolve/encoders { };
-      elio-fm = callPackage ./elio-fm/package.nix { };
+      elio-fm = callPackage-u ./elio-fm/package.nix { };
       ffmpeg = callPackage-u ./ffmpeg/package.nix { };
       handbrake = callPackage-u ./handbrake/package.nix { };
       kdePackages = callPackage-s ./kde { };

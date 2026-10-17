@@ -5,22 +5,22 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "elio";
-  version = "1.12.0";
+  version = "1.13.0";
 
   src = fetchFromGitHub {
     owner = "elio-fm";
     repo = "elio";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-FT5F3L8IgbX6vPjEd+TSudoyIZe4TX7no0FF9C75aaU=";
+    hash = "sha256-6A/VxmRl/YpaaaMrlw3UExdKRn3yh8SVazD8ee1HETE=";
   };
 
-  cargoHash = "sha256-gnUPukVYevg6JpPIVqDt/9LMtb3FmC8NNgJH6AU8fBE=";
+  cargoHash = "sha256-6hiXp3LvKToifGkYN22H/GRSClNQ6a64cEWjqPKMhfw=";
 
   postPatch = ''
-    substituteInPlace "./src/app/overlays/inline_image/protocol.rs" \
+    substituteInPlace "./src/terminal_images/protocol.rs" \
       --replace-fail \
-        'TerminalIdentity::Alacritty | TerminalIdentity::Other => ImageProtocol::None,' \
-        'TerminalIdentity::Alacritty => ImageProtocol::Sixel,TerminalIdentity::Other => ImageProtocol::None,'
+        'TerminalIdentity::Foot | TerminalIdentity::WindowsTerminal => ImageProtocol::Sixel,' \
+        'TerminalIdentity::Foot | TerminalIdentity::WindowsTerminal | TerminalIdentity::Alacritty => ImageProtocol::Sixel,'
   '';
 
   doCheck = false;

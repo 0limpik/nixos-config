@@ -22,10 +22,10 @@ let
 in
 vencord.overrideAttrs (
   finalAttrs: attrs: rec {
-    version = "1.15.8";
+    version = "1.15.11";
 
     src = attrs.src.override {
-      hash = "sha256-nN2NJbB5UHj3zmUVV8mTON78ba4v9LBxrxD4uwXN8vE=";
+      hash = "sha256-bUbzsfrrOd7uWf1q51EohRelG9jfAoFY20gqcQ+enoE=";
     };
 
     pnpmDeps = fetchPnpmDeps {

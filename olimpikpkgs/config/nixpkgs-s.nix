@@ -1,6 +1,9 @@
 args: pkgs:
 let
-  config = import ./nixpkgs.nix { inherit (pkgs) lib; inherit args; };
+  config = import ./nixpkgs.nix {
+    inherit (pkgs) lib;
+    inherit args;
+  };
 in
 import pkgs {
   inherit (args) system;
@@ -22,6 +25,8 @@ import pkgs {
       "steam-unwrapped"
       "steam-run"
       "xnviewmp"
+      "amf"
+      "amdenc"
     ];
     allowInsecurePredicate = config.allowInsecurePredicate "s" [
       "dcraw"
@@ -40,4 +45,5 @@ import pkgs {
       });
     })
   ];
+  packageOverrides = pkgs: { } // (config.packageOverrides pkgs);
 }

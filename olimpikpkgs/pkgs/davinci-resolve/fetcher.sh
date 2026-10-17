@@ -18,7 +18,7 @@ get_download_latest_url() {
         | select(
                 ($v[0] == null or $v[0] == .major)
             and ($v[1] == null or $v[1] == .minor)
-            and ($v[2] == null or $v[2] == .releaseNum)
+            and (($v[2] == null and .releaseNum == 0) or $v[2] == .releaseNum)
             and ($v[3] == null or $v[3] == .buildNum)
             and ($v[4] == null or $v[4] == .beta)
         )]
