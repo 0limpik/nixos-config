@@ -241,7 +241,7 @@ let
       description = "Professional video editing, color, effects and audio post-processing";
       homepage = "https://www.blackmagicdesign.com/products/davinciresolve";
       license = lib.licenses.unfree;
-      maintainers = with lib.maintainers; [ /* olimpik */ ];
+      maintainers = with lib.maintainers; [ olimpik ];
       platforms = [ "x86_64-linux" ];
       sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     };
